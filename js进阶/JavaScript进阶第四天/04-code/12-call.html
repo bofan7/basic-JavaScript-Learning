@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：Function.prototype.call()
+    // 1. 作用：调用指定的函数，并在调用时强制改变该函数内部 `this` 的指向。
+    // 2. 语法：`fn.call(thisArg, arg1, arg2, ...)`
+    //    - thisArg：函数运行时代替 `this` 指向的目标对象。
+    //    - arg1, arg2, ...：传给函数的实参列表。
+    // 3. 核心特征：
+    //    - **会立刻调用并执行函数**。
+    //    - 参数必须**逐个列举**出来传入（以逗号分隔）。
+    // 4. 返回值：就是被调用函数的返回值。
+    // ==========================================
+
+    const obj = {
+      uname: 'pink'
+    }
+    
+    function fn(x, y) {
+      // 默认直接调用 fn() 时，this 指向 window
+      // 如果使用 call 改变指向，this 将指向传入的对象 obj
+      console.log(this)  // 打印：{ uname: 'pink' }
+      console.log(x + y) // 打印：3
+    }
+    
+    // 1. 改变 this 指向为 obj
+    // 2. 传入参数 x=1, y=2
+    // 3. 立刻执行 fn() 函数
+    fn.call(obj, 1, 2)
+  </script>
+</body>
+
+</html>

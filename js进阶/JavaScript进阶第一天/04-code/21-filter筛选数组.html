@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：Array.prototype.filter() 筛选数组
+    // 1. 作用：用于过滤/筛选数组中符合条件的元素。
+    // 2. 核心特征：
+    //    - **返回一个新数组**：把所有符合条件的元素放入一个新数组中并返回。
+    //    - **不改变原数组**：原数组内容保持不变（纯函数操作）。
+    // 3. 筛选原理：
+    //    - 每次循环，回调函数需要返回一个布尔值（true 或 false，或者能转为 true/false 的值）。
+    //    - 若回调返回 `true`，则当前元素被保留在新数组中。
+    //    - 若回调返回 `false`，则过滤掉该元素。
+    // 4. 简写方式：
+    //    - 配合箭头函数，在一行内写完筛选逻辑，代码非常优雅易读。
+    // ==========================================
+
+    const arr = [10, 20, 30]
+
+    // 【方式一：传统匿名函数写法】
+    // const newArr = arr.filter(function (item, index) {
+    //   // item 为元素值，index 为索引号
+    //   return item >= 20 // 返回 true 的元素会被保留
+    // })
+    
+    // 【方式二：箭头函数极简写法】
+    // item => item >= 20 相当于匿名函数，省略了大括号和 return 关键字
+    const newArr = arr.filter(item => item >= 20)
+    
+    console.log(newArr) // 打印新数组：[20, 30]
+    console.log(arr)    // 打印原数组：[10, 20, 30] (确认原数组并未受到任何改动)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 先引用 -->
+  <script src="./lodash.min.js"></script>
+  <script>
+    // ==========================================
+    // 知识点：利用第三方 JS 库 Lodash 实现深拷贝
+    // 1. 背景：手写递归深拷贝较为繁琐，且容易漏掉复杂边界情况（如 Date、RegExp、循环引用等）。
+    // 2. 解决方案：使用社区中非常成熟、性能优异的工具库【Lodash】。
+    // 3. 使用步骤：
+    //    - 第一步：在页面中引入 lodash 的 JS 文件。
+    //    - 第二步：调用 lodash 挂载在全局 `_` 变量上的方法 `_.cloneDeep(obj)` 即可完成极速且安全的深拷贝。
+    // ==========================================
+
+    const obj = {
+      uname: 'pink',
+      age: 18,
+      hobby: ['乒乓球', '足球'],
+      family: {
+        baby: '小pink'
+      }
+    }
+    
+    // 调用 Lodash 的 _.cloneDeep 方法进行深拷贝
+    const o = _.cloneDeep(obj)
+    console.log(o)
+    
+    // 修改新对象中的深层属性值
+    o.family.baby = '老pink'
+    
+    // 验证：原对象中的相应深层属性值并未被改变（互不影响，拷贝成功）
+    console.log(obj) // obj.family.baby 依然是 '小pink'
+  </script>
+</body>
+
+</html>

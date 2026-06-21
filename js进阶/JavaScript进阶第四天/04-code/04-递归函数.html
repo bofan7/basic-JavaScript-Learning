@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：递归函数 (Recursive Functions)
+    // 1. 概念：如果一个函数在“内部调用了自己本身”，那么这个函数就是递归函数。
+    // 2. 递归的核心两大要素（缺一不可）：
+    //    - 要素一：递归出口（终止条件）。告诉函数什么时候应该停止调用自己。如果没有出口，函数会无限调用自身，最终撑爆调用栈，报错：`RangeError: Maximum call stack size exceeded` (栈溢出)。
+    //    - 要素二：递归方向。每次调用自己，所传的参数或相关控制变量必须逐渐“向出口条件逼近”（比如本例中的 `i++`）。
+    // 3. 执行特点：
+    //    - 类似于循环，但它是函数调用栈的层层叠加。
+    // ==========================================
+
+    let i = 1
+    
+    function fn() {
+      console.log(`这是第${i}次`)
+      
+      // 1. 递归出口：当满足 i >= 6 条件时，执行 return 结束函数调用，不再继续往下走
+      if (i >= 6) {
+        return
+      }
+      
+      // 2. 递增控制变量，使其向出口条件逼近
+      i++
+      
+      // 3. 递归调用：自己在内部调用自己
+      fn()
+    }
+    
+    fn() // 开始执行，最终控制台输出 6 次打印
+  </script>
+</body>
+
+</html>

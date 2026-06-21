@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：构造函数和原型对象中 this 的指向
+    // 1. prototype方法内部的 this 指向谁？
+    //    - 自动指向调用该方法的【实例对象】（例如调用 `ldh.sing()` 时，指向 ldh）。
+
+    // ==========================================
+
+    let that // 全局变量，用于临时存储 this 引用以作对比
+    
+    function Star(uname) {
+      // 这里的 this 指向通过 new 创建出来的实例对象（这里是 ldh）
+      // that = this 
+      this.uname = uname
+    }
+    
+    // 原型对象中的共享方法
+    Star.prototype.sing = function () {
+      // 当使用 `ldh.sing()` 调用该方法时，`this` 会指向该方法的调用者——实例对象 `ldh`
+      that = this
+      console.log('唱歌')
+    }
+
+    // 1. 执行实例化操作
+    // 此时 Star 内部的 this 即为刚生成的 ldh 实例
+    const ldh = new Star('刘德华')
+    
+    // 2. 调用原型上的方法
+    // 此时 sing() 内部的 `this` 赋给全局变量 `that`
+    ldh.sing()
+    
+    // 3. 验证两个 this 指向是否一致，且都指向实例 ldh
+    console.log(that === ldh) // 打印 true （证实原型方法中的 this 确实指向实例对象）
+  </script>
+</body>
+
+</html>

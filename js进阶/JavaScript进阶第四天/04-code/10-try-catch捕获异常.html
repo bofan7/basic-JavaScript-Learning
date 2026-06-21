@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <p>123</p>
+  <script>
+    // ==========================================
+    // 知识点：try-catch-finally 异常捕获
+    // 1. `try` 块：
+    //    - 放入可能抛出错误/异常的代码。如果 try 内某行代码发生错误，程序不会直接红字崩溃崩溃，而是**立刻跳转到 catch 块**执行。
+    // 2. `catch(err)` 块：
+    //    - 作用：拦截捕获 try 块中抛出的错误。
+    //    - 参数 `err`：捕获到的 Error 错误对象实例。可以通过 `err.message` 查看错误简要描述，`err.stack` 查看追踪栈。
+    //    - ⚠️捕获的作用：可以让程序在出错后不中断，继续跑完 catch 块之后的后续代码。
+    // 3. `finally` 块：
+    //    - 作用：**不管代码有没有出错，finally 里的代码都百分之百会执行！**
+    //    - 即使 try 块或 catch 块里写了 `return`，或者在 catch 里写了 `throw`，finally 依旧会先一步运行完毕再进行 return/throw。
+    // ==========================================
+
+    function fn() {
+      try {
+        // 由于页面中只有一个 <p>123</p> 标签，并没有 class 为 p 的元素
+        // 故这里的 document.querySelector('.p') 返回的值是 null
+        const p = document.querySelector('.p')
+        
+        // ❌ 对 null 访问 style 属性，会抛出 TypeError 错误！
+        // 这一步报错后，try 块中后续代码（如果有）将被跳过，直接进 catch 块！
+        p.style.color = 'red'
+        
+      } catch (err) {
+        // 打印错误消息描述
+        console.log(err.message) // 打印："Cannot read properties of null (reading 'style')"
+        
+        // 我们可以在 catch 块里做一些降级容错处理
+        
+        // ⚠️如果我们在 catch 块里又用 throw 抛出了一个新错误，且外部没有捕获，那后续代码又会被中断
+        throw new Error('选择器元素获取失败，请检查 HTML 结构')
+        
+        // 或者直接写 return 提前结束函数
+        // return
+      }
+      finally {
+        // finally 中的代码不管出错与否，一定会被执行
+        alert('无论 try 内部是否报错，我都会被弹出执行！')
+      }
+      
+      // 注意：如果在 catch 里写了 return 或 throw，且没有被捕获，那么这行 11 打印就无法执行到
+      console.log(11)
+    }
+    
+    fn()
+  </script>
+</body>
+
+</html>

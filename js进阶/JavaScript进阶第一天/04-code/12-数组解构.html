@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：数组解构 (Array Destructuring) - ES6 新增
+    // 1. 概念：将数组的单元值快速批量赋值给一系列变量的简洁语法。
+    // 2. 特点：
+    //    - 它是“位置/索引一一对应”的。数组的第 0 个元素赋值给第 0 个变量，以此类推。
+    // 3. 应用场景：
+    //    - 快速提取数据。
+    //    - 交换两个变量的值（无需引入临时第三方变量 `temp`）。
+    // ==========================================
+
+    // 【一、 数组解构的基本语法】
+    // 传统写法：
+    // const arr = [100, 60, 80]
+    // const max = arr[0]
+    // const min = arr[1]
+    // const avg = arr[2]
+
+    // 解构写法：
+    // 把右侧数组的单元值依次解构赋值给左侧的 max, min, avg
+    const [max, min, avg] = [100, 60, 80]
+    console.log(max) // 100
+    console.log(avg) // 80
+
+
+    // 【二、 典型应用：交换两个变量的值】
+    let a = 1
+    let b = 2; // 注意：此处的“分号”非常关键！
+    
+    // 使用解构快速交换 a 和 b 的值
+    // 右侧 [a, b] 相当于创建了新数组 [1, 2]
+    // 左侧 [b, a] 相当于把新数组的元素解构赋值给 b 和 a，使得 b=1, a=2
+    [b, a] = [a, b]
+    
+    console.log(a, b) // 打印：2 1 (成功交换)
+  </script>
+</body>
+
+</html>

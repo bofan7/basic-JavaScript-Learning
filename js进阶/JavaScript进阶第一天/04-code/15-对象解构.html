@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：对象解构 (Object Destructuring) - ES6 新增
+    // 1. 概念：将对象的属性和方法快速批量赋值给变量的简洁语法。
+    // 2. 核心特征：
+    //    - 它是“按属性名（键名）”匹配的，而不是按位置。只要变量名和对象的属性名一致，就可以成功提取。由于不看位置，所以解构变量的声明顺序无所谓。
+    //    - `const { uname, age } = { age: 18, uname: 'pink老师' }` 依然能精确匹配。
+    // 3. 进阶用法：
+    //    - 别名（重命名变量）：如果想把解构出来的属性赋值给另一个自定义的变量名，可以使用 `旧属性名: 新变量名` 的格式。
+    //      * 例如：`const { uname: username } = obj` 意为：提取 obj 的 `uname` 属性，并声明一个叫 `username` 的变量来存它。
+    //    - 嵌套结构解构：可以组合数组与对象解构，提取复杂的数据结构。
+    // ==========================================
+
+    // 【一、 对象解构的基本语法】
+    // 传统写法：
+    const obj = {
+      uname: 'pink老师',
+      age: 18
+    }
+    const uname1 = obj.uname
+    const age1 = obj.age
+
+    // 解构写法（要求变量名和 对象里的属性名必须完全一致）：
+    const { uname2, age2 } = { age2: 18, uname2: 'pink老师' }
+    console.log(uname2) // 'pink老师'
+    console.log(age2)   // 18
+
+
+    // 【二、 细节一：改名（重命名变量）】
+    // 如果外部已经存在了同名变量（如 const uname = 'red老师'），直接解构 `const { uname }` 会报错（Identifier 'uname' has already been declared）。
+    // 此时我们可以通过 `uname: username` 给变量改名：
+    const { uname: username, age: Lifespan} = { uname: 'pink老师', age: 18 }
+    console.log(username) // 打印 'pink老师'
+    console.log(Lifespan)      // 18
+
+
+    // 【三、 细节二：解构“数组对象” (Array of Objects)】
+    // pig 是一个数组，里面包含一个对象
+    const pig = [
+      {
+        uname: '佩奇',
+        age: 6
+      }
+    ]
+    
+    // 混合解构：
+    // 外层的 `[]` 匹配 pig 数组的第 0 项（这个对象）
+    // 内层的 `{}` 匹配该对象中的 `uname` 和 `age` 属性
+    const [{ uname, age }] = pig
+    
+    console.log(uname) // 佩奇
+    console.log(age)   // 6
+  </script>
+</body>
+
+</html>

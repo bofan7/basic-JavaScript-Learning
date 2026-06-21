@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS修改样式示例</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+
+  <script>
+    // 1. 获取目标元素（找到要换装的“芭比娃娃”）
+    const box = document.querySelector('.box')
+
+    // 2. 通过 .style 属性修改样式
+    // 【核心公式】：元素.style.样式属性 = '值+单位'
+    
+    // 💡 规则一：值必须是字符串（用引号包裹），且绝大多数情况必须带单位（如 px）
+    box.style.width = '300px'  // 相当于 CSS 中的 width: 300px;
+
+    // 💡 规则二：CSS中带连字符的属性，在JS中要变成“小驼峰命名法”
+    // background-color ❌ -> backgroundColor 
+    box.style.backgroundColor = 'hotpink' 
+    
+    // border-top ❌ -> borderTop
+    box.style.border = '20px solid blue'
+    box.style.borderTop = '20px solid black'
+  </script>
+</body>
+
+</html>

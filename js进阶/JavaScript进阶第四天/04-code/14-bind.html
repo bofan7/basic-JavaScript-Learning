@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button>发送短信</button>
+  <script>
+    // ==========================================
+    // 知识点：Function.prototype.bind()
+    // 1. 作用：改变函数内部的 `this` 指向。
+    // 2. 语法：`const newFn = fn.bind(thisArg, arg1, arg2, ...)`
+    //    - thisArg：函数运行时代替 `this` 指向的目标对象。
+    // 3. 核心特征（极其重要）：
+    //    - **不会立刻调用执行该函数**。
+    //    - **返回值是一个全新拷贝的原函数**，只不过这个新函数内部的 `this` 已经被永久锁定为 `thisArg`。
+    // 4. 常见应用场景：
+    //    - 当我们需要改变“回调函数”的 `this` 指向，但又**不想让它立刻执行**（比如事件回调、定时器回调等）时，只能用 `bind`！
+    // ==========================================
+
+    const obj = {
+      age: 18
+    }
+    
+    function fn() {
+      console.log(this)
+    }
+
+    // 调用 bind：不会执行 fn。它返回一个新拷贝的函数 fun，fun 内部的 this 绑定了 obj。
+    const fun = fn.bind(obj)
+    
+    // 执行新生成的函数，此时打印：{ age: 18 }
+    fun() 
+
+
+    // 【经典实战交互案例：发送验证码/短信倒计时禁用按钮】
+    // 需求：点击按钮后禁用按钮，2秒钟后重新开启。
+    document.querySelector('button').addEventListener('click', function () {
+      // 1. 点击按钮后立刻禁用
+      // 此处的 this 在 DOM 事件监听中，指向当前点击的 DOM 元素（即 button）
+      this.disabled = true 
+      
+      // 2. 启动 2 秒定时器
+      window.setTimeout(function () {
+        // ⚠️如果我们不加后面的 `.bind(this)`：
+        //   那么这个定时器普通回调函数里的 `this` 默认指向 `window`。`window.disabled = false` 没有任何效果，按钮将永远无法恢复。
+        // ⚠️通过在匿名函数末尾添加 `.bind(this)`：
+        //   此处的 `this`（外层的 button 实例）被绑定作为定时器回调的 inner this，使得定时器运行时内部的 `this.disabled = false` 能精准控制 button。
+        this.disabled = false 
+        
+      }.bind(this), 2000) 
+    })
+  </script>
+</body>
+
+</html>

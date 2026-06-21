@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：原型继承 (Prototypal Inheritance)
+    // 1. 继承背景：
+    //    - 如果多个构造函数（如 Woman 和 Man）有相同的属性和方法，我们可以把这些公共的成员提取到一个“父类”（如 Person）中。
+    // 2. ⚠️错误的继承尝试：
+    //    - `Woman.prototype = PersonObj` (直接用对象字面量赋值给子类原型)
+    //    - 缺陷：如果两个子类（Woman 和 Man）的原型指向同一个对象，当我们在 Woman 原型上添加子类特有方法（如 baby 方法）时，Man 原型上也会同步增加该方法（因为它们在内存中指向同一个对象，会发生“属性污染”）。
+    // 3. 正确的原型继承方案：
+    //    - `子类.prototype = new 父类()`
+    //    - 原理：`new Person()` 会返回一个独立的对象实例。这个实例能够通过它的 `__proto__` 顺利访问 Person.prototype 上的成员。
+    //    - 独立性：由于 Woman.prototype 和 Man.prototype 分别指向 `new Person()` 产生出来的**不同实例**（地址不同），所以它们往自己原型上添加特有方法时，绝对不会互相影响。
+    // 4. 重建连接：
+    //    - 在将子类原型重定向到父类实例后，其原有的 `constructor` 丢失，必须手动将 `子类.prototype.constructor` 重新指向子类构造函数本身。
+    // ==========================================
+
+    // 一、 定义父构造函数 Person
+    function Person() {
+      this.eyes = 2
+      this.head = 1
+    }
+
+    // 二、 定义子类 Woman
+    function Woman() {
+    }
+    
+    // 【原型继承核心步骤】
+    // 1. 子类的原型指向父类的一个新实例对象
+    Woman.prototype = new Person()   
+    // 2. ⚠️重构原型后，手动将 constructor 指向指回子类自身，否则其 constructor 将会错误地指向 Person
+    Woman.prototype.constructor = Woman
+
+    // 给 Woman 原型添加专属的方法：生孩子
+    Woman.prototype.baby = function () {
+      console.log('宝贝')
+    }
+    
+    // 实例化一个女人对象 red
+    const red = new Woman()
+    console.log(red) // 包含 eyes:2, head:1, 且原型链上有 baby() 方法
+    
+
+    // 三、 定义另一个子类 Man
+    function Man() {
+    }
+    
+    // 继承 Person (创建一个全新的 Person 实例，与 Woman.prototype 指向的实例互不干扰)
+    Man.prototype = new Person()
+    Man.prototype.constructor = Man
+    
+    // 实例化一个男人对象 pink
+    const pink = new Man()
+    console.log(pink) // 包含 eyes:2, head:1，但它的原型链上**绝对没有** baby 方法（实现了隔离）
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：构造函数与原型对象 (prototype)
+    // 1. 问题所在：如果把方法写在构造函数内部（如 `this.sing = function(){}`），每次 `new` 实例化一个对象时，都会在内存中为这个方法单独开辟一块新空间。
+    //    * 如果创建 1 万个实例，就会在内存中复制 1 万个一模一样的方法，这会造成极大的内存浪费。
+    // 2. 解决方案：原型对象 (prototype)
+    //   类名.prototype.方法名 = function() { ... }
+    //    - 在 JavaScript 中，每一个“构造函数”都默认自带一个 `prototype` 属性，它指向一个对象，称为“原型对象”。
+    //    - 作用：我们可以把所有**共享的方法**，直接挂载到构造函数的 `prototype` 原型对象身上。
+    //    - 效果：所有的实例对象都将共享这个原型对象上的方法。内存中只保存一份该方法，极大地节省了系统内存。
+    // 3. 实例与原型：
+    //    - 实例对象可以直接调用其构造函数原型对象上的属性或方法，因为 JS 在实例上找不到该方法时，会自动去其原型链上寻找。
+    // ==========================================
+
+    // 1. 公共的属性写在构造函数内部
+    function Star(uname, age) {
+      this.uname = uname
+      this.age = age
+      // ⚠️不推荐写在这里：
+      // this.sing = function () {
+      //   console.log('唱歌')
+      // }
+    }
+    
+    // 2. 公共的方法挂载到原型对象 (Star.prototype) 身上 -> 节约内存
+    Star.prototype.sing = function () {
+      console.log('唱歌')
+    }
+    
+    // 实例化两个歌手对象
+    const ldh = new Star('刘德华', 55)
+    const zxy = new Star('张学友', 58)
+    
+    // 调用共享的方法
+    ldh.sing() 
+    zxy.sing() 
+    
+    // 验证内存占用：
+    console.log(ldh === zxy)  // false （两个独立的实例对象，地址不同）
+    
+    // ⚠️核心验证：因为 sing 方法挂在原型对象上，所以它们指向内存中同一块函数地址！
+    console.log(ldh.sing === zxy.sing) // true （完全相等，共享了同一个方法）
+
+    // 可以在控制台输出原型对象结构，观察其 constructor 等属性
+    // console.dir(Star.prototype)
+  </script>
+</body>
+
+</html>

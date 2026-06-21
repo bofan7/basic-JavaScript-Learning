@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .pink {
+      background-color: pink;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="pink">按钮1</button>
+  <button>按钮2</button>
+  <button>按钮3</button>
+  <button>按钮4</button>
+  <script>
+   // 1. 找到页面上的所有 button 标签，存进 bts 这个集合里（相当于拿到了这 4 盏灯）
+let bts = document.querySelectorAll('button')//返回伪数组（NodeList 包含所有匹配项）
+
+// 2. 用循环给每一个按钮都绑定一个“点击事件”
+for (let i = 0; i < bts.length; i++) {
+  bts[i].addEventListener('click', function () {
+    
+    // 【核心第一步】：干掉所有人（清除旧状态）
+    // 页面上直接寻找那个带有 '.pink' 类的按钮，把它的类名清空 (className = '')
+    // 这样之前粉色的按钮就瞬间变回普通按钮了
+    document.querySelector('.pink').className = ''//返回单个 DOM 元素对象（第一匹配项）
+    
+    // 【核心第二步】：留下我自己（设置新状态）
+    // 'this' 代表当前正在被点击的那个按钮
+    // 给当前点击的按钮加上 'pink' 类名，让它变成粉色
+    this.className = 'pink'
+    
+  })
+}
+  </script>
+</body>
+
+</html>

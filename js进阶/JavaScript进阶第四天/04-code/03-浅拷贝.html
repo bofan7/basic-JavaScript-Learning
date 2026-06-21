@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：浅拷贝 (Shallow Copy)
+    // 1. 概念：创建一个新对象，然后将原对象的属性值复制到新对象中。
+    // 2. 浅拷贝特征：
+    //    - 如果属性是“简单类型”，直接拷贝其“具体值”（新旧属性值互不影响）。
+    //    - 如果属性是“引用类型”（如对象、数组），拷贝的是其“内存地址指针”（新旧属性仍共享同一个堆内存对象）。
+    // 3. 实现方法：
+    //    - 方法一：使用 `Object.assign(target, source)` (本例所用)。
+    //    - 方法二：使用 ES6 展开运算符 `const newObj = { ...oldObj }`。
+    // 4. 局限性：只能拷贝“第一层”属性，若对象层级很深，深层属性仍然存在引用共享的问题。
+    // ==========================================
+
+    const obj = {
+      uname: 'pink',
+      age: 18,
+      family: {
+        baby: '小pink'
+      }
+    }
+    
+    // 【浅拷贝实现方式一：展开运算符】
+    // const o = { ...obj }
+
+    // 【浅拷贝实现方式二：Object.assign】
+    const o = {}
+    Object.assign(o, obj) // 将 obj 浅拷贝给新空对象 o
+    
+    // 1. 修改第一层属性（简单类型）：
+    o.age = 20 // 第一层属性值直接复制，o.age 独立，不会改变原对象 obj.age
+    
+    // 2. 修改深层属性（引用类型）：
+    o.family.baby = '老pink' // 因为 family 保存的是地址指针，o 和 obj 的 family 指向同一个对象，改动会同步影响到 obj.family.baby
+    
+    console.log(o) 
+    // 打印：{ uname: 'pink', age: 20, family: { baby: '老pink' } }
+    
+    console.log(obj) 
+    // 打印：{ uname: 'pink', age: 18, family: { baby: '老pink' } }
+    // 观察发现：obj.age 依然是 18 (成功独立)，但是 obj.family.baby 被改成了 '老pink' (深层未被完全拷贝)
+  </script>
+</body>
+
+</html>

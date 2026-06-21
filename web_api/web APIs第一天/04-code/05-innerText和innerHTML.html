@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="box">我是文字的内容</div>
+  <script>
+
+    // 1. 获取元素
+    const box = document.querySelector('.box')
+
+    // 2. 对象.innerText 属性（只认纯文本，不解析标签）
+    // box.innerText = '我是一个盒子'  // 修改内容：直接写入纯文本
+    box.innerText = '<strong>我是一个盒子</strong>'  // 页面效果：原样输出文本,把标签也看成文字，加粗标签不生效
+
+    // 3. 对象.innerHTML 属性（超聪明，能自动解析 HTML 标签）
+    console.log(box.innerHTML)  // 获取内容：连同标签和文本一起打包拿到
+    // box.innerHTML = '我要更换'   // 修改内容：如果没有标签，效果和innerText一样
+    box.innerHTML = '<strong>我要更换</strong>'  // 页面效果：标签生效，文字成功变成【加粗】效果
+
+  </script>
+</body>
+
+</html>

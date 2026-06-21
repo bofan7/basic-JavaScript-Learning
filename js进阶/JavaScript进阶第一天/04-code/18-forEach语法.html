@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：Array的forEach() 遍历数组
+    // 1. 作用：用于遍历数组中的每个元素，代替传统的 `for` 循环。特别推荐用于遍历“对象数组”。
+    // 2. 语法：`arr.forEach(function (currentValue, index, arr) { ... })`
+    //    - currentValue / item (必须)：当前遍历到的数组元素值。
+    //    - index (可选)：当前元素的索引号（从 0 开始）。
+    //    - arr (可选)：当前遍历的数组对象本身。
+    // 3. 核心特征：
+    //    - **没有返回值**（返回值永远是 `undefined`）。因此，不能链式调用，也不能用来生成新数组。
+    //    - **无法被中断**：在 `forEach` 内部不能使用 `break` 或 `continue` 关键字。如果必须提前终止循环，应使用普通的 `for` 循环、`some()`、`every()` 或 `find()`。
+    // ==========================================
+
+    const arr = ['red', 'green', 'pink']
+    
+    // 调用 forEach 遍历数组
+    const result = arr.forEach(function (item, index) {
+      console.log(item)  // 打印当前的数组元素：依次为 'red', 'green', 'pink'
+      console.log(index) // 打印当前的索引号：依次为 0, 1, 2
+    })
+    
+    // 验证返回值：因为 forEach 没有返回值，所以 result 的值为 undefined
+    console.log(result) // undefined
+  </script>
+</body>
+
+</html>

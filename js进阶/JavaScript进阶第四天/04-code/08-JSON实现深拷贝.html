@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：利用 JSON 方法实现深拷贝
+    // 1. 原理（数据中介转换）：
+    //    - 第一步：使用 `JSON.stringify(obj)` 将 JS 对象转换成标准的 JSON 格式“字符串”。
+    //      * 核心：在变成字符串后，原对象在堆内存中的引用连接被彻底“斩断”了。
+    //    - 第二步：使用 `JSON.parse(jsonStr)` 将刚才生成的 JSON 字符串解析成一个“全新对象”。
+    // 2. 优点：
+    //    - 语法超级简单，纯原生支持，速度飞快。
+    // 3. ⚠️缺点与局限性（面试高频考点）：
+    //    - 会丢失属性值为 `undefined` 的键。
+    //    - 会丢失“函数”属性（对象中的函数在转换后直接消失）。
+    //    - `Date` 类型的数据在转换后会被降级转换成纯字符串格式。
+    //    - `RegExp`（正则）对象在转换后会变成空对象 `{}`。
+    // ==========================================
+
+    const obj = {
+      uname: 'pink',
+      age: 18,
+      hobby: ['乒乓球', '足球'],
+      family: {
+        baby: '小pink'
+      }
+    }
+
+    // 先将对象转换成 JSON 字符串，再重新解析为新的 JavaScript 对象，从而完成深拷贝
+    const o = JSON.parse(JSON.stringify(obj))
+    console.log(o)
+    
+    // 修改新对象中的深层属性
+    o.family.baby = '123'
+    
+    // 验证：原对象并没有被修改
+    console.log(obj) // obj.family.baby 依然是 '小pink'
+  </script>
+</body>
+
+</html>

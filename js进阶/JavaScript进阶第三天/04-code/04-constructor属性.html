@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS原型覆盖与constructor修复演示</title>
+</head>
+
+<body>
+  <script>
+    // =================================================================
+    // 1. 定义构造函数
+    // =================================================================
+    function Star(name) {
+      this.name = name;
+    }
+
+    // =================================================================
+    // 2. 重写原型对象（一次性挂载多个方法）
+    // =================================================================
+    // ⚠️ 注意：直接赋值一个 {} 新对象，会把原有默认的 Star.prototype “连根拔起”直接覆盖掉。
+    // 为了不让实例对象“找不到亲爹”，我们必须在内部做两件事：
+    Star.prototype = {
+      
+      // 【核心修复】手动贴回“身份标签”
+      // 告诉 JavaScript：这个新房子的主人依然是 Star 构造函数。
+      // 💡 如果删掉下面这行，Star.prototype.constructor === Star 就会返回 false！
+      constructor: Star, 
+
+      // 技能一：唱歌
+      sing: function () {
+        console.log(this.name + ' 正在唱歌 🎤');
+      },
+      
+      // 技能二：跳舞
+      dance: function () {
+        console.log(this.name + ' 正在跳舞 💃');
+      }
+    };
+
+    // =================================================================
+    // 3. 实例化对象与效果验证
+    // =================================================================
+    
+    // 创建一个明星实例：刘德华
+    const ldh = new Star('刘德华');
+
+    // 验证一：测试新挂载的方法是否能正常使用
+    console.log('%c---- 1. 方法调用测试 ----', 'color: blue; font-weight: bold;');
+    ldh.sing();  // 输出: 刘德华 正在唱歌 🎤
+    ldh.dance(); // 输出: 刘德华 正在跳舞 💃
+
+    // 验证二：检查原型对象的结构
+    console.log('%c---- 2. 查看原型对象结构 ----', 'color: blue; font-weight: bold;');
+    console.log(Star.prototype); // 打开控制台展开看，能看到里面同时有 constructor、sing 和 dance
+
+    // 验证三：核心测试！ constructor 关系是否正确
+    console.log('%c---- 3. 核心身份验证结果 ----', 'color: blue; font-weight: bold;');
+    
+    // 检查原型上的标签
+    const isProtoConstructorCorrect = (Star.prototype.constructor === Star);
+    console.log('Star原型对象的constructor是否正确指回了Star？', isProtoConstructorCorrect); 
+    // 上面输出: true (因为我们加了 constructor: Star)
+
+    // 检查实例对象的指向
+    const isInstanceConstructorCorrect = (ldh.__proto__.constructor === Star);
+    console.log('实例对象ldh能否正确找到自己的构造函数？', isInstanceConstructorCorrect); 
+    // 上面输出: true
+
+  </script>
+</body>
+
+</html>

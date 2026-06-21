@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    .box {
+      width: 500px;
+      height: 500px;
+      background-color: #ccc;
+      color: #fff;
+      text-align: center;
+      font-size: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script>
+    // ==========================================
+    // 知识点：手写防抖 (Debounce)
+    // 1. 为什么需要防抖？
+    //    - 像 `mousemove`、`scroll`、`resize` 等事件在触发时频率极高（一秒可能触发几十上百次）。
+    //    - 如果这些事件的回调函数中包含复杂的 DOM 操作或 Ajax 网络请求，浏览器会极其卡顿。
+    // 2. 防抖概念：
+    //    - 任务频繁触发时，并不立即执行。只有在**事件触发后等待 t 毫秒，且这 t 毫秒内没有再次触发事件**，才去执行一次。
+    //    - 简单说：“你尽管点，只有最后停下来等够时间，我才执行一次”。
+    // 3. 实现原理 (闭包 + 定时器)：
+    //    - 声明一个 `timeId` 变量用于记录当前的定时器。
+    //    - 返回一个闭包匿名函数。在每次事件触发时，**首先清除上一次的定时器**（`clearTimeout`），然后**开启一个全新的定时器**。
+    //    - 这样就能确保只有在最后一次触发事件且静止 t 毫秒后，核心函数才会执行。
+    // ==========================================
+
+    const box = document.querySelector('.box')
+    let i = 1  // 用于统计和展示鼠标移动触发次数
+    
+    // 核心业务函数：鼠标移动时改变盒子内部的数值
+    function mouseMove() {
+      box.innerHTML = ++i
+    }
+    
+    // 手写防抖函数
+    // fn: 目标业务函数； t: 延迟时间(毫秒)
+    function debounce(fn, t) {
+      let timeId // 利用闭包特性，此变量将持久保存在内存中，供返回的匿名函数共享使用
+      
+      return function () {
+        // 如果前面已经开启了定时器（即最近 t 毫秒内触发过事件），立刻清除它
+        if (timeId) clearTimeout(timeId)
+        
+        // 重新开启一个全新的延迟定时器，并在延迟结束后调用业务函数 fn
+        timeId = setTimeout(function () {
+          fn()
+        }, t)
+      }
+    }
+
+    // 绑定事件：
+    // 不要写成 box.addEventListener('mousemove', mouseMove) （那会频繁触发）
+    // 写成如下形式：将防抖处理后返回的新函数绑定给 mousemove 事件
+    box.addEventListener('mousemove', debounce(mouseMove, 200))
+  </script>
+</body>
+
+</html>

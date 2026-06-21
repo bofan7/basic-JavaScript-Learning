@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：JS 垃圾回收机制 (Garbage Collection - GC)
+    // 1. 内存生命周期：分配内存（声明变量、函数、对象时） -> 使用内存（读写） -> 释放内存（垃圾回收）。
+    // 2. 垃圾回收的基本原理：
+    //    - 全局变量：生命周期长。只要页面不关闭，全局变量就会一直占用内存，不会被回收。因此应尽量少声明全局变量。
+    //    - 局部变量：生命周期短。在函数/块执行时分配，函数/块执行完毕后，如果没有外部引用（即没有形成闭包），就会被自动垃圾回收器回收。
+    // 3. 主流算法：
+    //    - 引用计数 (Reference Counting)：已不常用，存在“循环引用”导致内存泄漏的问题。
+    //    - 标记清除 (Mark and Sweep)：主流算法。从全局根对象（Global Root）开始，遍历寻找所有可达（Reachable）的对象。无法触达的对象即为垃圾，会被清除。
+    // ==========================================
+
+    // let i 是块级作用域变量
+    // 当 for 循环结束时，i 的生命周期结束，占用的内存会被垃圾回收机制释放
+    for (let i = 1; i <= 3; i++) {
+
+    }
+
+    // num 是全局变量
+    // 只要当前浏览器标签页不关闭，num 占用的内存就一直存在，不会被垃圾回收
+    let num = 10
+
+    // fn 是一个普通的函数
+    function fn() {
+      // str 是一个局部变量（只在 fn 函数执行时被分配内存）
+      const str = 'andy'
+      // str = 'lily' // 报错：const 声明的常量不可重新赋值
+      console.log(str)
+      // 函数 fn 执行完毕！
+      // 局部变量 str 因为没有在外部被使用，此时无法再被触达，因此会被自动标记并回收。
+    }
+
+    // 每次调用 fn()，都会经历“分配内存 -> 使用内存 -> 回收内存”的过程
+    fn()
+    fn()
+    fn()
+  </script>
+</body>
+
+</html>

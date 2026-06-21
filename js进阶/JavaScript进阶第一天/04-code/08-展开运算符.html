@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：展开运算符 (Spread Operator) - ES6 新增
+    // 1. 语法：`...`，例如 `...arr`。
+    // 2. 核心作用：
+    //    - 将一个数组（或对象）“展开”/“拆散”成用逗号分隔的参数序列。
+    // 3. 常见用途：
+    //    - 求数组中的最值：有些函数（如 Math.max）不接受数组作为参数，只接受数字列表。使用 `Math.max(...arr)` 即可将数组展开后传参。
+    //    - 数组合并：可以快速合并两个或多个数组，形成一个新数组。
+    //    - 浅拷贝数组：复制数组，避免新旧变量共享同一个内存地址。
+    // 4. 对比：剩余参数 vs 展开运算符
+    //    - 剩余参数：在“函数形参”中，把多个零散的参数“合并”成一个数组。
+    //    - 展开运算符：在“函数实参”或“数组字面量”中，把一个数组“拆散”为零散的值。
+    // ==========================================
+
+    const arr1 = [1, 2, 3]
+    
+    // 【一、 展开数组的基本效果】
+    // ...arr1 会被展开为：1, 2, 3 
+     console.log(...arr1) // 相当于 console.log(1, 2, 3) -> 控制台打印：1 2 3
+
+    // 【二、 用途 1：求数组最大值/最小值】
+    // Math.max(1, 2, 3) 接受一串参数
+    // ...arr1 等价于传入 1, 2, 3
+    console.log(Math.max(...arr1)) // 打印 3 (Math.max(1, 2, 3))
+    console.log(Math.min(...arr1)) // 打印 1 (Math.min(1, 2, 3))
+
+    // 【三、 用途 2：合并数组】
+    const arr2 = [3, 4, 5]
+    // 合并 arr1 [1, 2, 3] 和 arr2 [3, 4, 5]
+    // 新数组中的元素依次展开，形成：[1, 2, 3, 3, 4, 5]
+    const arr = [...arr1, ...arr2]
+    console.log(arr) // 打印 [1, 2, 3, 3, 4, 5]
+  </script>
+</body>
+
+</html>

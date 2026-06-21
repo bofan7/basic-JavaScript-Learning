@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：自定义构造函数 (Custom Constructors)
+    // 1. 概念：构造函数是一种特殊的函数，用来批量初始化/创建具有相同结构（属性和方法）的对象。
+    // 2. 命名规范：函数名首字母必须大写（大驼峰，如 Pig, Goods）。
+    // 3. 核心语法规则：
+    //    - 必须配合 `new` 关键字调用。
+    //    - 构造函数内部不需要写 `return`，在 `new` 的过程中会自动返回新创建的对象。
+    //    - 内部属性和方法需挂载到 `this` 目标对象上，此时的 `this` 指向新生成的实例对象。
+    // 4. `new` 关键字执行过程（背诵要点）：
+    //    (1) 在内存中创建一个新的空对象 `{}`。
+    //    (2) 让该空对象的原型（__proto__）指向构造函数的 prototype 原型对象（建立原型链）。
+    //    (3) 将构造函数内部的 `this` 指向这个新对象，并执行构造函数的代码（为其添加属性和方法）。
+    //    (4) 隐式返回这个新对象。
+    // 5. 成员分类：
+    //    - 实例成员：在构造函数内部通过 `this` 添加的属性和方法。只能通过“实例对象”访问（如 `mi.name`），不同实例的实例成员相互独立。
+    //    - 静态成员：直接挂载在“构造函数自身”上的属性和方法。只能通过“构造函数名”访问（如 `Goods.num`），实例对象无法访问。
+    // ==========================================
+
+    // 【一、 声明与实例化 Pig 构造函数】
+    function Pig(uname, age) {
+      // 实例属性
+      this.uname = uname
+      this.age = age
+    }
+
+    // 实例化：使用 new 关键字创建猪对象实例
+    // console.log(new Pig('佩奇', 6))
+    // console.log(new Pig('乔治', 3))
+    const p = new Pig('佩奇', 6)
+    console.log(p) // 打印 Pig 实例对象：{ uname: '佩奇', age: 6 }
+
+    // 【二、 实例化 Goods 构造函数与实例成员验证】
+    function Goods(name, price, count) {
+      // 实例属性与实例方法
+      this.name = name
+      this.price = price
+      this.count = count
+      this.sayhi = function () { 
+        console.log('你好')
+      }
+    }
+    
+    const mi = new Goods('小米', 1999, 20)
+    console.log(mi) // 得到小米实例对象
+    const hw = new Goods('华为', 3999, 59)
+    console.log(hw) // 得到华为实例对象
+    
+    // ⚠️重要：两个独立的实例对象，即使内部数据完全一样，它们在内存中的地址也不同
+    console.log(mi === hw) // false
+    
+    // 修改 mi 实例的 name，不会影响到 hw 实例的 name（成员相互独立）
+    mi.name = 'vivo'
+    console.log(mi) // mi.name 变为 'vivo'
+    console.log(hw) // hw.name 依然是 '华为'
+
+
+    // 【三、 静态成员定义与使用】
+    // 静态成员直接绑定到构造函数本身上，在内存中独一份，与任何实例对象无关
+    Goods.num = 10                  // 静态属性
+    console.log(Goods.num)          // 打印 10
+    console.log(mi.num)             // undefined (实例对象无法访问静态属性)
+    
+    Goods.sayhi = function () {     // 静态方法
+      console.log('我是静态方法')
+    }
+    Goods.sayhi()                   // 正常运行
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="never" />
+  <title>综合案例</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 1200px;
+      margin: 0 auto;
+    }
+
+    .video video {
+      width: 100%;
+      padding: 20px 0;
+    }
+
+    .elevator {
+      position: fixed;
+      top: 280px;
+      right: 20px;
+      z-index: 999;
+      background: #fff;
+      border: 1px solid #e4e4e4;
+      width: 60px;
+    }
+
+    .elevator a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      text-align: center;
+      color: #999;
+    }
+
+    .elevator a.active {
+      color: #1286ff;
+    }
+
+    .outline {
+      padding-bottom: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="http://pip.itcast.cn">
+        <img src="https://pip.itcast.cn/img/logo_v3.29b9ba72.png" alt="" />
+      </a>
+    </div>
+    <div class="video">
+      <video src="https://v.itheima.net/LapADhV6.mp4" controls></video>
+    </div>
+    <div class="elevator">
+      <a href="javascript:;" data-ref="video">视频介绍</a>
+      <a href="javascript:;" data-ref="intro">课程简介</a>
+      <a href="javascript:;" data-ref="outline">评论列表</a>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    // ==========================================
+    // 综合案例：视频播放进度记忆（结合节流优化）
+    // 核心开发逻辑：
+    // 1. 获取视频元素，当视频播放进度发生更新时，触发 `ontimeupdate` 事件。
+    //    - ⚠️性能隐患：`ontimeupdate` 事件默认触发极其高频（每秒可能触发很多次），如果每次触发都去写本地存储 `localStorage`，会产生严重的 IO 负担与卡顿。
+    //    - 优化：利用 `_.throttle(callback, 1000)` 对事件处理逻辑实施“节流”，限制为最多一秒只向本地存储写入一次当前时间，提升网页运行速度。
+    // 2. 页面重新加载时，读取本地存储中记录的时间，并将视频进度拉回原位置，实现“续播”功能。
+    //    - 触发时机：`onloadeddata`，即视频的当前帧数据已加载完毕，准备播放时。
+    // ==========================================
+
+    // 1. 获取 video 元素
+    const video = document.querySelector('video')
+    
+    // 2. 绑定进度更新事件并进行节流限频（每 1000 毫秒最多执行一次回调）
+    video.ontimeupdate = _.throttle(() => {
+      // 2.1 获得当前的视频播放进度（单位：秒，带小数）
+      // console.log(video.currentTime)
+      
+      // 2.2 把当前的时间进度写入本地存储 localStorage
+      localStorage.setItem('currentTime', video.currentTime)
+    }, 1000)
+
+    // 3. 打开页面加载视频数据时触发
+    video.onloadeddata = () => {
+      // 从本地存储里面取出记录的时间，赋值给视频的当前时间属性，实现自动定位到上次播放进度。若无记录，则默认为 0
+      video.currentTime = localStorage.getItem('currentTime') || 0
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：String 常见的实例方法
+    // 1. `split('分隔符')`：把一个字符串拆分成一个【数组】。
+    //    - 与数组的 `join()` 互为逆操作。
+    // 2. `substring(indexStart, indexEnd)`：从字符串中截取指定范围的子字符串。
+    //    - 包含 `indexStart`（开始索引，包含）。
+    //    - 不包含 `indexEnd`（结束索引，**不包含**）。
+    //    - 如果省略第二个参数，默认一直截取到字符串的末尾。
+    // 3. `startsWith(searchString)`：检测字符串是否以指定的子字符串“开头”，返回布尔值。
+    // 4. `includes(searchString)`：检测一个字符串中是否“包含”另一个子字符串，返回布尔值。
+    //    - 相比传统的 `indexOf() !== -1` 判断，`includes` 语法更直观语义化。
+    // ==========================================
+
+    // 【一、 split 把字符串分割为数组】
+    const str1 = 'pink,red'
+    const arr1 = str1.split(',')
+    console.log(arr1) // 打印数组：['pink', 'red']
+    
+    const str2 = '2022-4-8'
+    const arr2 = str2.split('-')
+    console.log(arr2) // 打印数组：['2022', '4', '8']
+
+
+    // 【二、 substring 截取字符串】
+    const str3 = '今天又要做核酸了'
+    // 截取索引 5 开始到索引 7 之前的部分（即包含 5 和 6，不包含 7）
+    // 字符对应索引：今(0) 天(1) 又(2) 要(3) 做(4) 核(5) 酸(6) 了(7)
+    console.log(str3.substring(5, 7)) // 打印："核酸"
+    
+    // 省略第二个参数，从索引 3 开始一直截取到最后
+    console.log(str3.substring(3))    // 打印："要做核酸了"
+
+
+    // 【三、 startsWith 判断开头】
+    const str4 = 'pink老师上课中'
+    console.log(str4.startsWith('pink')) // 打印 true
+    console.log(str4.startsWith('老师')) // 打印 false
+
+
+    // 【四、 includes 判断包含关系】
+    const str5 = '我是pink老师'
+    console.log(str5.includes('pink')) // 打印 true
+    console.log(str5.includes('blue')) // 打印 false
+  </script>
+</body>
+
+</html>

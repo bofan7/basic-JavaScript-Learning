@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 1. 基础关系运算符（比较大小）
+    console.log(3 > 5)     // false
+    console.log(3 >= 3)    // true
+
+    // 2. 双等号 == (宽松相等)
+    // 比较运算符有隐式转换：会先把两边的值转换成相同的类型，再进行比较（只判断“值”是否相等）
+    console.log(2 == 2)    // true  (类型相同，值相同)
+    console.log(2 == '2')  // true  (把字符串 '2' 隐式转换为数字 2，然后比较)
+
+    // 3. 三等号 === (严格相等 / 全等)
+    // 不会进行隐式转换：要求“值”和“数据类型”必须完全一样才返回 true
+    // 【最佳实践】在开发中判断是否相等，请一律使用 ===
+    console.log(2 === '2') // false (值虽然一样，但一个是数字，一个是字符串，类型不同)
+
+    // 4. 特殊情况：NaN (Not a Number)
+    // NaN 是一个极其特殊的值，它不等于任何人，包括它自己
+    console.log(NaN === NaN) // false 
+
+    // 5. 不相等运算符 (!= 和 !==)
+    // !=  是不全等（对应 ==），会做隐式转换
+    // !== 是严格不全等（对应 ===），不做隐式转换，只要类型或值有一个不同就是 true
+    console.log(2 !== '2')  // true  (因为类型不同，所以它们“严格不相等”)
+    console.log(2 != '2')   // false (因为隐式转换后值相等，所以它们并没有“不相等”)
+
+    console.log('-------------------------')
+
+    // 6. 字符串的比较
+    // 字符串比较不是看长度，而是从左到右依次比较字符的 ASCII 码 (或 Unicode 码)
+    // 'a' 的编码是 97，'b' 的编码是 98
+    console.log('a' < 'b')    // true  (97 < 98)
+    console.log('aa' < 'ab')   // true  (第一位都是a相同，第二位a<b)
+    console.log('aa' < 'aac')  // true  (前两位相同，第三位左边没了，右边有c，所以右边大)
+    console.log('-------------------------')
+  </script>
+</body>
+
+</html>

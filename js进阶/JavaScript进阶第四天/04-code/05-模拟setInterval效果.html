@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div></div>
+  <script>
+    /**背景知识:setTimeout 和 setInterval 的核心区别在于执行次数,
+     * setTimeout 是只执行一次，而 setInterval 是每隔一段时间循环执行。*/
+    // ==========================================
+    // 知识点：利用递归的 setTimeout 模拟 setInterval 效果
+    // 1. setInterval 的缺陷：
+    //    - 如果定时器内要执行的代码很耗时（比如大于 1 秒），而定时器设置的间隔是 1 秒。
+    //    - 这会导致上一次代码还没跑完，下一次就已经被推进执行队列了，从而导致调用重叠，引发页面卡顿甚至崩溃。
+    // 2. 解决方案：递归 setTimeout
+    //    - 每次函数执行完毕后，再在末尾启动下一次 `setTimeout`（如 1 秒后再次调用自身）。
+    //    - 优势：能够确保**在上一次任务彻底执行完毕后，再等待固定的时间间隔才开始执行下一次任务**，避免了队列挤压。
+    // ==========================================
+
+    function getTime() {
+      // 1. 获取当前时间并渲染到 DOM 容器中
+      document.querySelector('div').innerHTML = new Date().toLocaleString()
+      
+      // 2. 递归调用：等本轮渲染完成后，开启一个 1000ms（1秒）后的单次定时器，再次执行 getTime()
+      setTimeout(getTime, 1000)
+    }
+    
+    // 启动首次调用
+    getTime()
+  </script>
+</body>
+
+</html>

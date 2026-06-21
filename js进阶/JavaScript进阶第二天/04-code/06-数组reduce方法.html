@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：Array的reduce() 累计方法
+    // 1. 作用：遍历数组，将各个单元的值“合并/累加”计算，最终返回一个凝聚出的“单一结果值”。
+    // 2. 语法：`arr.reduce(function (prev, item, index) { ... }, initialValue)`
+    //    - callback 参数：
+    //      * prev（累计值 / 上一次计算的返回值）
+    //      * item（当前遍历的数组成员）
+    //      * index（当前成员的索引号）
+    //    - initialValue（起始值，**非常重要**）：
+    //      * 可选参数。作为第一次执行 callback 时传给 prev 的值。
+    // 3. 执行流程（极其重要）：
+    //    - **有起始值 (initialValue) 时**：
+    //      * 循环次数 = 数组长度。
+    //      * 第一次迭代：`prev` 开始为 `initialValue`，`item` 为 `arr[0]`（第一项）。
+    //    - **无起始值 (initialValue) 时**：
+    //      * 循环次数 = 数组长度 - 1。
+    //      * 第一次迭代：`prev` 自动直接拿 `arr[0]`（第一项），而 `item` 则直接拿 `arr[1]`（第二项）。
+    // 4. 最佳实践：
+    //    - 强烈建议**每次都写起始值**（如求和写 `0`，求乘积写 `1`），因为当数组为空且没有写起始值时，JS 会直接报错崩溃（TypeError）。
+    // ==========================================
+
+    const arr = [1, 2, 3]
+
+    // 【执行流程一：有初始值 0】
+    // 1. 第一次循环：prev = 0, item = 1 -> 返回 0 + 1 = 1
+    // 2. 第二次循环：prev = 1, item = 2 -> 返回 1 + 2 = 3
+    // 3. 第三次循环：prev = 3, item = 3 -> 返回 3 + 3 = 6
+    arr.reduce(function (prev, item) {
+      console.log(prev)
+      return prev + item
+    }, 0) // 最终返回 6
+
+
+    // 【执行流程二：无初始值】
+    // 1. 第一次循环：prev = arr[0] (即 1), item = arr[1] (即 2) -> 返回 1 + 2 = 3
+    // 2. 第二次循环：prev = 3, item = arr[2] (即 3) -> 返回 3 + 3 = 6
+    // arr.reduce(function (prev, item) {
+    //   return prev + item
+    // })
+
+
+    // 【箭头函数极简写法】
+    // 省略起始值时，prev 初始为 1，依次累加 2, 3，返回 6
+    const re = arr.reduce((prev, item) => prev + item)
+    console.log(re) // 打印 6
+  </script>
+</body>
+
+</html>

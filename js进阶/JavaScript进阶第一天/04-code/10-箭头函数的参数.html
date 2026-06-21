@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：箭头函数的参数
+    // 1. 核心规则：箭头函数中**没有**内置的 `arguments` 动态参数对象。
+    // 2. 替代方案：如果在箭头函数中需要接收不定数量的参数，必须使用 **剩余参数 (Rest Parameters)**：`...args`。
+    // ==========================================
+
+    // 利用箭头函数 + 剩余参数来求和
+    const getSum = (...arr) => {
+      // 这里的 arr 是一个真正的数组，它收集了所有传进来的实参
+      let sum = 0
+      
+      // 遍历这个真数组
+      for (let i = 0; i < arr.length; i++) {
+        sum += arr[i]
+      }
+      return sum
+    }
+    
+    // 调用函数并传入 3 个实参
+    const result = getSum(2, 3, 4)
+    console.log(result) // 输出结果为 9
+  </script>
+</body>
+
+</html>

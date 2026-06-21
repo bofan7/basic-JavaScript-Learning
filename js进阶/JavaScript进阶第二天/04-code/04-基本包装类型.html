@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：基本包装类型 (Primitive Wrapper Types)
+    // 1. 背景问题：在 JS 中，字符串、数值、布尔值属于“简单数据类型”（值类型），它们本身并不是对象，理论上不应该有属性和方法。
+    //    * 但是为什么我们可以像调用对象方法一样，去读取 `str.length` 或调用 `num.toFixed()` 呢？
+    // 2. 运行原理：
+    //    - 当我们试图访问简单数据类型的属性或方法时，JS 引擎底层会自动把这个简单数据类型“包装”为对应的“引用数据类型”（即对象）。
+    //    - 内部工作步骤：
+    //      (1) 临时创建一个对应类型的包装对象：`const temp = new String('pink')`
+    //      (2) 访问属性或调用方法：`temp.length` 或 `temp.indexOf(...)`
+    //      (3) 销毁这个临时对象。
+    // 3. 常见的包装类：String、Number、Boolean
+    // ==========================================
+
+    // 【示例一：字符串的包装】
+    const str = 'pink' // 简单数据类型（string）
+    console.log(str.length) // 打印 4。底层自动执行了 `new String('pink').length`
+    
+    // 【示例二：数值的包装】
+    const num = 12 // 简单数据类型（number）
+    console.log(num.toFixed(2)) // 打印 "12.00"。底层自动执行了 `new Number(12).toFixed(2)`
+
+    // 总结：这就是为什么简单数据类型也拥有方法的原因，全部由 JS 引擎在背后默默完成了自动包装和销毁。
+  </script>
+</body>
+
+</html>

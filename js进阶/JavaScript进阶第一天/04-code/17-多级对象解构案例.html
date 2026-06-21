@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：多级对象解构在实际开发中的应用 (API 数据提取)
+    // 1. 实战背景：向后端发起 Ajax/Fetch 请求时，返回的数据结构通常是一个复杂的对象（如含有 code、msg、data 等）。我们往往只需要其中的 `data` 数组。
+    // 2. 函数形参解构：
+    //    - 如果一个函数接收一个对象作为实参，我们可以在函数的“形参列表”中直接对其进行解构：
+    //      * 传统写法：`function render(obj) { let data = obj.data; ... }`
+    //      * 解构写法：`function render({ data }) { ... }`
+    //    - 这不仅使代码极为精炼，而且明确地指出了该函数到底依赖了传入对象的哪些属性。
+    // 3. 形参解构并重命名：
+    //    - 语法：`function render({ data: myData }) { ... }`，函数体内部就可以使用 `myData` 这个自定义的新名称。
+    // ==========================================
+
+    // 1. 模拟从后台传递过来的 API JSON 数据
+    const msg = {
+      "code": 200,
+      "msg": "获取新闻列表成功",
+      "data": [
+        {
+          "id": 1,
+          "title": "5G商用自己，三大运用商收入下降",
+          "count": 58
+        },
+        {
+          "id": 2,
+          "title": "国际媒体头条速览",
+          "count": 56
+        },
+        {
+          "id": 3,
+          "title": "乌克兰和俄罗斯持续冲突",
+          "count": 1669
+        },
+      ]
+    }
+
+    // ------------------------------------------
+    // 需求 1：从 msg 对象中快速选出 data，方便后面渲染页面
+    // ------------------------------------------
+    // const { data } = msg // 解构提取，data 变量即为新闻数组
+    // console.log(data)
+
+    // ------------------------------------------
+    // 需求 2：将 msg 作为参数传给渲染函数，并在函数形参处直接解构 data
+    // ------------------------------------------
+    // msg 包含 code、msg 等无关属性，但在 render 形参中使用 { data }，只会提取并接收其 data 属性
+    function render({ data }) {
+      // 内部直接访问 data 变量，无需写 `msg.data`
+      console.log(data) 
+    }
+    render(msg) // 调用函数，传递整个 msg 对象，但形参处执行了解构
+
+    // ------------------------------------------
+    // 需求 3：防混淆，将解构出来的 data 在函数体内改名为 myData
+    // ------------------------------------------
+    function render2({ data: myData }) {
+      // 通过 `:` 改名。此时在函数内部，`data` 变量失效，只能使用 `myData` 访问数据。
+      console.log(myData)
+    }
+    render2(msg)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    .box {
+      width: 500px;
+      height: 500px;
+      background-color: #ccc;
+      color: #fff;
+      text-align: center;
+      font-size: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script>
+    // ==========================================
+    // 知识点：手写节流 (Throttle)——时间戳版
+    // 1. 节流概念：
+    //    - 任务频繁触发时，并不每次都执行。在持续触发事件的过程中，保证在固定的时间间隔内（如 t 毫秒）**只执行一次**。
+    //    - 简单说：“技能冷却 CD”。冷却时间内点得再快也无效。
+    // 2. 经典实现原理（时间戳对比）：
+    //    - 声明一个起始时间 `startTime = 0`。
+    //    - 每次触发事件时，通过 `Date.now()` 获取当前时间戳 `now`。
+    //    - 计算差值 `now - startTime`。如果大于或等于设定的时间间隔 `t`，说明已经冷却结束：
+    //      * 执行目标业务函数 `fn()`。
+    //      * 将起始时间更新为当前时间：`startTime = now`。
+    //    - 如果小于 `t`，说明仍在冷却期中，直接忽略本次触发。
+    // ==========================================
+
+    const box = document.querySelector('.box')
+    let i = 1  // 让这个变量++
+    
+    // 鼠标移动函数
+    function mouseMove() {
+      box.innerHTML = ++i
+    }
+    
+    // 手写节流函数 (时间戳形式)
+    function throttle(fn, t) {
+      let startTime = 0 // 利用闭包保留这个变量状态
+      
+      return function () {
+        let now = Date.now() // 获取当前时间戳（自1970年以来的毫秒数）
+        
+        // 如果两次触发的间隔时间大于或等于设定的冷却时间 t，则放行执行
+        if (now - startTime >= t) {
+          fn()            // 执行核心业务逻辑
+          startTime = now // 极其重要：更新起始时间，重新开始计时冷却
+        }
+      }
+    }
+    
+    // 绑定事件：每隔 500ms 最多执行一次 mouseMove
+    box.addEventListener('mousemove', throttle(mouseMove, 500))
+
+    // throttle(mouseMove, 500) === function () { console.log(1) }
+
+
+    // box.addEventListener('mousemove', function () {
+    //   // 得到当前的时间
+    //   let now = Date.now()
+    //   // 判断如果大于等于 500 采取调用函数
+    //   if (now - startTime >= t) {
+    //     // 调用函数
+    //     fn()
+    //     // 起始的时间 = 现在的时间   写在调用函数的下面
+    //     startTime = now
+    //   }
+    // })
+
+  </script>
+</body>
+
+</html>

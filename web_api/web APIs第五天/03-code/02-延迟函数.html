@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 1. 定义一个定时器，并用变量 timerId 接收它的 ID（方便后续如果需要可以取消它）
+const timerId = setTimeout(() => {
+  
+  // 这里的代码会在 10 秒（10000毫秒）后执行
+  console.log('时间到了');
+
+}, 10000); // 10000 毫秒 = 10 秒
+
+
+// ==========================================
+// 2. 【补充用法】如果想在 10 秒内取消这个定时器，可以解除下方代码的注释：
+// ==========================================
+// clearTimeout(timerId);
+  </script>
+</body>
+
+</html>

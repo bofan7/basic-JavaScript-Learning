@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>事件对象终极记忆模板</title>
+  <style>
+    .box { width: 200px; padding: 20px; background: #f0f0f0; border: 1px solid #ccc; text-align: center; cursor: pointer; }
+    .active { background: #ffe6e6; border-color: red; color: red; }
+  </style>
+</head>
+<body>
+
+  <div class="box">点我切换CSS</div>
+  <input type="text" placeholder="按回车试试...">
+
+  <script>
+    // =========================================================================
+    // 🚨 【核心敲黑板】全网最通俗的定义解释（以后看这块就够了）：
+    // =========================================================================
+    // 
+    // 1️⃣ 什么是“事件对象” (Event Object)？
+    //    答：它是浏览器自动生成的一个【大数据包】（本质是一个JS对象）。
+    //    只要网页上发生了任何事情（比如你点了一下、敲了一下键盘），浏览器就会立刻把
+    //    “是谁干的、在哪干的、怎么干的”这些情报打包起来。这个包就叫【事件对象】。
+    //
+    // 2️⃣ 什么是 “e” ？
+    //    答：e 只是一个【接收快递的“名字”】。
+    //    浏览器把数据包打包好后，需要送给你的函数。你在 `function(e)` 的括号里写个 `e`，
+    //    就代表：“喂，浏览器，把刚才那个数据包交给我，在我的函数里，它的名字叫 e ！”
+    //    💡 提示：你写成 `function(event)` 或者 `function(abc)` 都可以，但行业默认用 `e`。
+    //
+    // =========================================================================
+
+    
+    // --- ⬇️ 实战场景一：鼠标点击 (click) ⬇️ ---
+    const box = document.querySelector('.box')
+    
+    // 这里的 e 接收到了鼠标点击的数据包
+    box.addEventListener('click', function (e) {
+      
+      // 问：我想知道用户到底点击了哪个具体的 HTML 元素？
+      // 答：找 e 里面的 target 属性（e.target = 触发事件的源头元素）
+      console.log('你点击的元素标签是：', e.target)
+
+      // 拿到元素后，就可以切换它的 CSS 样式了
+      e.target.classList.toggle('active')
+    })
+
+
+    // --- ⬇️ 实战场景二：键盘弹起 (keyup) ⬇️ ---
+    const input = document.querySelector('input')
+
+    // 这里的 e 接收到了键盘敲击的数据包
+    input.addEventListener('keyup', function (e) {
+      
+      // 问：我想知道用户刚才在键盘上按了哪个键？
+      // 答：找 e 里面的 key 属性（e.key = 按键的名字字符串）
+      console.log('你刚才按下的键是：', e.key)
+
+      // 如果按的是回车键，就执行里面的逻辑
+      if (e.key === 'Enter') {
+        alert('你按了回车！输入框里面的内容是：' + e.target.value)
+      }
+    })
+
+  </script>
+</body>
+</html>

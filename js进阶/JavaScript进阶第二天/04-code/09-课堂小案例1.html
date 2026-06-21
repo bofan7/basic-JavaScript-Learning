@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div></div>
+  <script>
+    // ==========================================
+    // 课堂小案例：提取规格对象的值并渲染展示
+    // 核心需求：将规格对象 `{ size: '40cm*40cm', color: '黑色' }` 拼接成字符串 "40cm*40cm/黑色" 并放入 div 容器中。
+    // 实现原理：
+    // 1. `Object.values(spec)`：提取对象中所有的属性值，返回数组 `['40cm*40cm', '黑色']`。
+    // 2. `join('/')`：数组自带方法。将数组的所有元素按照指定的分隔符（这里是斜杠 `/`）拼接成一个整的字符串。
+    // ==========================================
+
+    const spec = { size: '40cm*40cm', color: '黑色' }
+    
+    // 1. 获取所有的属性值数组 -> ['40cm*40cm', '黑色']
+    // console.log(Object.values(spec))
+    
+    // 2. 转换成由斜杠连接的字符串 -> "40cm*40cm/黑色"
+    // console.log(Object.values(spec).join('/'))
+    
+    // 3. 渲染到页面 div 容器中
+    document.querySelector('div').innerHTML = Object.values(spec).join('/')
+  </script>
+</body>
+
+</html>

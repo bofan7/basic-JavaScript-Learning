@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：直接赋值对象的问题（引用传递）
+    // 1. 数据存储机制：
+    //    - 简单数据类型（如数字、字符串）：直接存放在【栈内存】中。
+    //    - 引用数据类型（如对象、数组）：其具体数据存放在【堆内存】中，而在【栈内存】中只保存指向堆内存数据的“内存指针（地址）”。
+    // 2. 直接复制的问题：
+    //    - 当我们写 `const o = obj` 时，仅仅是把栈内存中的“指针地址”拷贝了一份给 `o`。
+    //    - 此时，变量 `o` 和 `obj` 实际上指向了堆内存中的【同一个对象】。
+    //    - 结果：通过任意一个变量修改对象属性，另一个变量访问时都会随之改变。
+    // ==========================================
+
+    const obj = {
+      uname: 'pink',
+      age: 18
+    }
+    
+    // 直接复制指针地址
+    const o = obj
+    console.log(o) // { uname: 'pink', age: 18 }
+    
+    // 修改拷贝后的变量 o 的 age 属性
+    o.age = 20
+    
+    console.log(o)   // { uname: 'pink', age: 20 }
+    
+    // ⚠️警惕：原对象 obj 的 age 属性也被改成了 20！
+    console.log(obj) // { uname: 'pink', age: 20 }
+  </script>
+</body>
+
+</html>

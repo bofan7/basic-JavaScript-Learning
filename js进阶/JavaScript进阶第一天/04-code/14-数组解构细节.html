@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：数组解构细节与进阶玩法
+    // ==========================================
+
+    // 【一、 数组解构的基本读取与函数返回值解构】
+    const pc = ['海尔', '联想', '小米', '方正'];
+    // 对应位置一一匹配
+    const [hr, lx, mi, fz] = pc
+    console.log(hr, lx, mi, fz); // 海尔 联想 小米 方正
+
+    // // 解构函数的返回值（函数返回一个数组，可直接在调用处解构）
+    // function getValue() {
+    //   return [100, 60]
+    // }
+    // const [max, min] = getValue()
+    // console.log(max, min) // 100 60
+
+
+    // 【二、 常见细节与异常情况】
+
+    // 细节 1：变量名多，单元值少
+    // 右侧只有 3 个元素，但左侧声明了 4 个变量。多出来的变量 d 没有对应的值，默认会被赋值为 `undefined`。
+    // const [a, b, c, d] = [1, 2, 3]
+    // console.log(a) // 1
+    // console.log(b) // 2
+    // console.log(c) // 3
+    // console.log(d) // undefined
+
+    // 细节 2：变量名少，单元值多
+    // 右侧有 3 个元素，左侧只解构前 2 个，超出的第 3 个单元值（3）会被直接忽略掉。
+    // const [a, b] = [1, 2, 3]
+    // console.log(a) // 1
+    // console.log(b) // 2
+
+    // 细节 3：使用剩余参数来收集多余的单元值
+    // `...c` 会作为真数组收集剩余的 [3, 4]
+    // const [a, b, ...c] = [1, 2, 3, 4]
+    // console.log(a) // 1
+    // console.log(b) // 2
+    // console.log(c) // [3, 4]
+
+    // 细节 4：防止 undefined，设置默认值
+    // 如果右侧对应位置没有值（或者是 undefined），则会使用 "=" 后面的默认值。
+    // const [a = 0, b = 0] = [1, 2] // 此时有值，a=1, b=2
+    // const [a = 0, b = 0] = []     // 此时无值，启用默认值 a=0, b=0
+    // console.log(a) 
+    // console.log(b) 
+
+    // 细节 5：按需导入（跳过某些单元值）
+    // 用逗号隔开留出空位，可以跳过数组中不想提取的值。下面跳过了数字 3
+    // const [a, b, , d] = [1, 2, 3, 4]
+    // console.log(a) // 1
+    // console.log(b) // 2
+    // console.log(d) // 4
+
+
+    // 【三、 多维（嵌套）数组的解构】
+    // 数组内部嵌套了另一个数组：[1, 2, [3, 4]]
+    // 传统方式读取嵌套数据：
+    // const arr = [1, 2, [3, 4]]
+    // console.log(arr[0])  // 1
+    // console.log(arr[1])  // 2
+    // console.log(arr[2])  // [3,4]
+    // console.log(arr[2][0])  // 3
+
+    // 多维解构写法一：
+    // const [a, b, c] = [1, 2, [3, 4]]
+    // console.log(a) // 1
+    // console.log(b) // 2
+    // console.log(c) // [3, 4] （变量 c 直接对应嵌套的数组）
+
+    // 多维解构写法二（完全拆解嵌套数组）：
+    // 左侧的解构模式必须和右侧的嵌套结构保持一致 `[a, b, [c, d]]`
+    const [a, b, [c, d]] = [1, 2, [3, 4]]
+    console.log(a) // 1
+    console.log(b) // 2
+    console.log(c) // 3 (提取出了内部数组的第 0 项)
+    console.log(d) // 4 (提取出了内部数组的第 1 项)
+  </script>
+
+
+</body>
+
+</html>

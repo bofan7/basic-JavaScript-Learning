@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：动态参数 (arguments)
+    // 1. 概念：`arguments` 是 JavaScript 函数内置的一个伪数组（类数组）对象。
+    // 2. 特点：
+    //    - 它只存在于函数体内。
+    //    - 它自动接收调用函数时传入的所有“实参”。
+    //    - 伪数组：它有 `length` 属性，也可以通过索引（如 `arguments[0]`）来读取实参，但它并不是一个真正的数组。它没有数组的常用方法（如 push, pop, filter, map 等）。
+    // 3. 适用场景：
+    //    - 当函数需要接收的参数个数不确定时，可以用 `arguments` 获取所有的传入参数。
+    // 4. 注意：
+    //    - 箭头函数中**没有** `arguments` 变量，如需接收不定参数，需使用剩余参数（Rest Parameters）。
+    // ==========================================
+
+    function getSum() {
+      // 这里的 arguments 会收集传入的全部实参
+      // 例如调用 getSum(2, 3, 4) 时，arguments 的内容是 [2, 3, 4] （类数组格式）
+      let sum = 0
+      
+      // 遍历 arguments 伪数组，求出所有实参的和
+      for (let i = 0; i < arguments.length; i++) {
+        sum += arguments[i] // 累加每一个传入的值
+      }
+      
+      console.log(sum) // 输出求和结果
+    }
+    
+    getSum(2, 3, 4) // 实参 3 个，输出 9
+    getSum(1, 2, 3, 4, 2, 2, 3, 4) // 实参 8 个，输出 19
+  </script>
+</body>
+
+</html>

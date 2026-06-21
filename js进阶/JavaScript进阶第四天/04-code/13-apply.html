@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：Function.prototype.apply()
+    // 1. 作用：调用指定的函数，并在调用时强制改变该函数内部 `this` 的指向。
+    // 2. 语法：`fn.apply(thisArg, [argsArray])`
+    //    - thisArg：希望绑定的 `this` 目标对象。
+    //    - argsArray：必须是一个**数组或者伪数组**，里面包含要传给函数的参数。
+    // 3. 与 call() 的区别：
+    //    - 相同点：作用完全相同，都是**立刻调用执行**该函数，并修改 `this`。
+    //    - 不同点：传参格式不同。`call` 传递参数是个数独立的（如 1, 2），而 `apply` 必须打包成数组（如 [1, 2]）传入。
+    // 4. 典型使用场景：
+    //    - 辅助求数组的最值。有些内置函数（如 `Math.max`）不直接支持接收数组，但可以利用 `apply` 将数组展开传参。
+    //    - 提示：在 ES6 之后，更推荐使用展开运算符 `Math.max(...arr)` 替代此方案。
+    // ==========================================
+
+    const obj = {
+      age: 18
+    }
+    
+    function fn(x, y) {
+      console.log(this)   // 打印：{ age: 18 } (this 成功改变)
+      console.log(x + y)  // 打印：3 （数组 [1, 2] 中的成员被自动解包传给 x 和 y）
+    }
+    
+    // 调用 apply：传入目标对象 obj，和参数数组 [1, 2]
+    fn.apply(obj, [1, 2])
+
+
+    // 【实战应用：求数组最值】
+    const arr = [100, 44, 77]
+    
+    // Math.max(100, 44, 77)
+    // 这里我们不需要改变 Math.max 内部的指向，所以第一个参数写 Math 或者是 null / undefined 都可以。
+    // 关键是第二个参数传入整个数组 arr，它会自动被拆散成独立的数值传给 Math.max
+    const max = Math.max.apply(Math, arr) 
+    const min = Math.min.apply(null, arr) 
+    
+    console.log(max, min) // 打印：100 44
+
+
+    // 【现代最佳替代方案：ES6 展开运算符】
+    // 代码更简单、更符合直觉，不需要借用 apply
+    console.log(Math.max(...arr)) // 打印：100
+  </script>
+</body>
+
+</html>

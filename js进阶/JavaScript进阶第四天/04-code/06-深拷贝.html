@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：手写深拷贝 (Deep Copy)——使用递归
+    // 1. 概念：深拷贝会为源对象中所有“引用类型”（如对象、数组）在内存中开辟全新空间进行拷贝。
+    //    - 拷贝后的新旧对象完全独立，修改新对象任何层级的属性都绝对不会影响原对象。
+    // 2. 递归实现核心逻辑：
+    //    - 使用 `for...in` 遍历原对象属性。
+    //    - 如果属性值是【数组】：在目标对象上创建空数组 `[]`，然后递归调用 `deepCopy` 进行深拷贝。
+    //    - 如果属性值是【对象】：在目标对象上创建空对象 `{}`，然后递归调用 `deepCopy` 进行深拷贝。
+    //    - 否则（说明是简单数据类型）：直接进行值赋值。
+    // 3. ⚠️为什么 Array 判断必须写在 Object 之前？
+    //    - 因为在 JS 中，数组本质上也是 Object 类型（`[] instanceof Object` 返回 `true`）。
+    //    - 如果把 Object 的判断写在前面，那么数组也会进入 Object 的判断分支，导致数组类型的数据被拷贝成了一个普通的对象 `{}`，破坏了数据结构。
+    // ==========================================
+
+    // 源（旧）对象
+    const obj = {
+      uname: 'pink',
+      age: 18,
+      hobby: ['乒乓球', '足球'],
+      family: {
+        baby: '小pink'
+      }
+    }
+    
+    const o = {} // 目标（新）空对象
+
+    // 封装的深拷贝递归函数
+    function deepCopy(newObj, oldObj) {
+      // 遍历源对象 oldObj 身上的每一个键
+      for (let k in oldObj) {
+        // 判断属性值是不是数组
+        // 必须优先进行 Array 的判断，因为数组也是 Object 实例！
+        if (oldObj[k] instanceof Array) {
+          newObj[k] = [] // 初始化新对象的对应属性为新空数组
+          deepCopy(newObj[k], oldObj[k]) // 递归深拷贝数组成员
+          
+        } else if (oldObj[k] instanceof Object) {
+          // 判断属性值是不是普通对象
+          newObj[k] = {} // 初始化新对象的对应属性为新空对象
+          deepCopy(newObj[k], oldObj[k]) // 递归深拷贝子对象成员
+          
+        } else {
+          // 简单数据类型（如 string, number）直接进行值拷贝
+          newObj[k] = oldObj[k]
+        }
+      }
+    }
+    
+    // 执行拷贝
+    deepCopy(o, obj) 
+    
+    console.log(o) // 打印新对象
+    
+    // 验证深拷贝的完全独立性：
+    o.age = 20
+    o.hobby[0] = '篮球'
+    o.family.baby = '老pink'
+    
+    // 修改新对象 o 后，打印源对象 obj 观察：
+    // 发现 obj.age 依然是 18，obj.hobby[0] 依然是 '乒乓球'，obj.family.baby 依然是 '小pink'
+    // 说明原对象丝毫不受影响，深拷贝成功！
+    console.log(obj) 
+    
+    // 验证：[1, 23] 是 Object 的实例，所以 instanceof 顺序不能颠倒
+    // console.log([1, 23] instanceof Object) // true
+  </script>
+</body>
+
+</html>

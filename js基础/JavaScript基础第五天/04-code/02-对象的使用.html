@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+   // 1.声明对象
+    let pink = {
+      uname: 'pink老师',
+      age: 18,
+      gender: '女'
+    }
+
+    // 改 把性别的女改为男
+    pink.gender = '男'
+    console.log(pink)
+
+    // 增
+    pink.hobby = '足球'
+    console.log(pink)
+
+    // 删 
+    delete pink.age
+    console.log(pink)
+
+   
+    // 查的另外一种属性：
+    // 对象名['属性名']
+    console.log(pink['goods-name'])
+
+
+    // 查总结：
+    // (1) 对象名.属性名  obj.age
+    console.log(pink.num)
+    // (2) 对象名['属性名']  obj['age']
+    console.log(pink['num'])
+
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：原型链 (Prototype Chain) 与 instanceof
+    // 1. 原型链：
+    //    - 在 JavaScript 中，所有的对象都拥有一个隐藏的属性 `__proto__`，指向它的原型对象。
+    //    - 原型对象自身也是一个对象，因此它也有 `__proto__` 指向上一级的原型对象。
+    //    - 这种链式指向关系就组成了【原型链】。它决定了属性和方法的查找机制。
+    // 2. 原型链查找规则：
+    //    - 当访问一个对象的属性/方法时，JS 会先在当前对象自身查找。
+    //    - 若找不到，就沿着 `__proto__` 找到其原型对象（如 Person.prototype）查找。
+    //    - 若依然找不到，继续沿着 `__proto__` 找到 Object 的原型对象（Object.prototype）查找。
+    //    - 若再找不到，查到 Object.prototype.__proto__，即 `null`（原型链的终点），此时返回 `undefined`。
+    // 3. `instanceof` 运算符：
+    //    - 作用：检测“构造函数的 prototype 属性”是否出现在“某个实例对象的原型链上”。返回布尔值。
+    // ==========================================
+
+    // 所有的原型对象说到底都是普通对象，都是由 Object() 构造出来的。
+    // 因此，Object.prototype 是所有原型对象的根原型。
+    console.log(Object.prototype) // 打印 Object.prototype 对象
+    
+    // ⚠️原型链的终点：Object.prototype.__proto__ 的值为 null
+    console.log(Object.prototype.__proto__) // null
+
+    function Person() {
+    }
+    
+    const ldh = new Person()
+    
+    // 【原型链解析：实例 ldh 的链路】
+    // ldh (实例) 
+    //   └──> __proto__ === Person.prototype (Person原型)
+    //         └──> __proto__ === Object.prototype (Object原型)
+    //               └──> __proto__ === null (终点)
+    
+    // console.log(ldh.__proto__ === Person.prototype)       // true
+    // console.log(Person.prototype.__proto__ === Object.prototype) // true
+
+    // 【instanceof 检测】
+    console.log(ldh instanceof Person) // true （Person.prototype 在 ldh 的原型链上）
+    console.log(ldh instanceof Object) // true （Object.prototype 也在 ldh 的原型链上）
+    console.log(ldh instanceof Array)  // false （Array.prototype 不在 ldh 的原型链上）
+    
+    console.log([1, 2, 3] instanceof Array)  // true
+    console.log(Array instanceof Object) // true （在 JS 中，所有的函数/类本质上都是对象）
+  </script>
+</body>
+
+</html>

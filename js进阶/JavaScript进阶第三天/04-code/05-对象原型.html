@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：对象原型 (__proto__)
+    // 1. 什么是对象原型？
+    //    - 在 JS 中，每一个【实例对象】（如由 `new Star()` 出来的 `ldh`）内部都自带一个属性 `__proto__`。
+    //    - 作用：指向其构造函数的“原型对象” (prototype)。
+    //    - 目的：让实例对象在需要时，能够顺着这条通路找到原型对象上的共享属性和方法。
+    // 2. ⚠️核心等式：
+    //    - `ldh.__proto__ === Star.prototype` (指向同一个原型对象)
+    // 3. 命名与调试：
+    //    - 在浏览器控制台中展开实例对象，会看到一个名为 `[[Prototype]]` 的隐藏属性，在代码中我们可以通过 `__proto__` 来访问和读取它。
+    //    - `__proto__` 本质上是一个非标准属性，主要是浏览器内部使用的通路。由于它也有 `constructor`，因此可以通过 `ldh.__proto__.constructor` 追溯到 `Star` 构造函数本身。
+    // ==========================================
+
+    function Star() {
+
+    }
+    
+    // 实例化对象
+    const ldh = new Star()
+    
+    // 1. 验证：对象原型 __proto__ 指向其对应的构造函数的原型对象 Star.prototype
+    console.log(ldh.__proto__) 
+    console.log(ldh.__proto__ === Star.prototype) // 打印 true
+
+    // 2. 验证：对象原型里面也有 constructor 属性，指向构造函数 Star
+    console.log(ldh.__proto__.constructor === Star) // 打印 true
+  </script>
+</body>
+
+</html>

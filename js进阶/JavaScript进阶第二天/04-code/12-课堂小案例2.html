@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div></div>
+  <script>
+    // ==========================================
+    // 课堂小案例：赠品数据格式化与渲染
+    // 核心需求：将逗号分隔的赠品字符串 '50g的茶叶,清洗球'，转换成多个带有 `<span>` 标签的 HTML 代码段并渲染到页面中。
+    // 实现原理（方法链式调用 - Method Chaining）：
+    // 1. `gift.split(',')`：
+    //    - 作用：将字符串按逗号切分，生成一个数组：`['50g的茶叶', '清洗球']`。
+    // 2. `.map(item => \`<span>【赠品】 \${item}</span> <br>\`)`：
+    //    - 作用：遍历上一步生成的数组，将每个普通的赠品名字包装在 HTML 字符串中，返回新数组：
+    //      `['<span>【赠品】 50g的茶叶</span> <br>', '<span>【赠品】 清洗球</span> <br>']`。
+    // 3. `.join('')`：
+    //    - 作用：将上一步包装好的 HTML 字符串数组，无缝拼接成一个连续的超长 HTML 字符串。
+    // 4. `innerHTML`：一次性渲染上屏。
+    // ==========================================
+
+    const gift = '50g的茶叶,清洗球'
+
+    // 【拆解演示版】
+    // // 1. 将字符串拆分为数组
+    // const arr = gift.split(',') // ['50g的茶叶', '清洗球']
+    // // 2. 遍历数组，加工生成包装了 span 标签的新 HTML 数组
+    // const htmlArr = arr.map(function (item) {
+    //   return `<span>【赠品】 ${item}</span> <br>`
+    // })
+    // // 3. 将数组合并成一整个 HTML 字符串
+    // const str = htmlArr.join('')
+    // // 4. 追加给 div 容器
+    // document.querySelector('div').innerHTML = str
+
+
+    // 【链式调用极简版（实际推荐）】
+    document.querySelector('div').innerHTML = gift
+      .split(',')
+      .map(item => `<span>【赠品】 ${item}</span> <br>`)
+      .join('')
+  </script>
+</body>
+
+</html>

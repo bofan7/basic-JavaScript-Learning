@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：创建对象的三种方式
+    // 1. 对象字面量（最常用，最简洁）：`const obj = { uname: 'pink' }`
+    // 2. 利用 `new Object()` 创建：JavaScript 内置的 Object 构造函数。
+    // 3. 自定义构造函数创建（详见下一节）：用于批量创建结构相似的对象。
+    // ==========================================
+
+    // 写法 1：先实例化，再追加属性
+    // const obj = new Object()
+    // obj.uname = 'pink老师'
+    // console.log(obj) // { uname: 'pink老师' }
+
+    // 写法 2：实例化时直接传入包含初始属性的对象
+    const obj = new Object({ uname: 'pink' })
+    console.log(obj) // { uname: 'pink' }
+  </script>
+</body>
+
+</html>

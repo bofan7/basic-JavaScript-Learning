@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+  <script>
+    // ==========================================
+    // 知识点：伪数组转换为真数组
+    // 1. 什么是伪数组（类数组 / Array-like Object）？
+    //    - 常见代表：`document.querySelectorAll()` 获取的 NodeList，或是函数内部的 `arguments`。
+    //    - 特征：有 length 属性，可以通过索引访问元素，但**没有**数组的内置方法（如 push, pop, shift, map 等）。
+    // 2. 为什么要转换？
+    //    - 只有转换成真正的 Array，才能方便地使用丰富的数组 API 进行后续的数据加工。
+    // 3. 转换方法：
+    //    - 方法一：`Array.from(伪数组)` (ES6 标准，本例所用)。
+    //    - 方法二：展开运算符 `const realArr = [...伪数组]`。
+    // ==========================================
+
+    // 获取页面中所有的 li 元素（得到的是一个 NodeList 伪数组）
+    const lis = document.querySelectorAll('ul li')
+    console.log(lis) // NodeList(3) [li, li, li]
+    
+    // lis.pop() // 警告：直接调用会报错 "TypeError: lis.pop is not a function"
+
+    // 将伪数组 lis 转换为真数组 liss
+    const liss = Array.from(lis)
+    
+    // 转换成真数组后，就可以调用 pop 弹出最后一个元素了
+    const lastLi = liss.pop() 
+    console.log(liss) // 打印：[li, li] (此时长度为 2)
+  </script>
+</body>
+
+</html>

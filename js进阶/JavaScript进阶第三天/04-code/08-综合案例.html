@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>面向对象封装消息提示</title>
+  <style>
+    .modal {
+      width: 300px;
+      min-height: 100px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      position: fixed;
+      z-index: 999;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      background-color: #fff;
+    }
+
+    .modal .header {
+      line-height: 40px;
+      padding: 0 10px;
+      position: relative;
+      font-size: 20px;
+    }
+
+    .modal .header i {
+      font-style: normal;
+      color: #999;
+      position: absolute;
+      right: 15px;
+      top: -2px;
+      cursor: pointer;
+    }
+
+    .modal .body {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .modal .footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+    }
+
+    .modal .footer a {
+      padding: 3px 8px;
+      background: #ccc;
+      text-decoration: none;
+      color: #fff;
+      border-radius: 2px;
+      margin-right: 10px;
+      font-size: 14px;
+    }
+
+    .modal .footer a.submit {
+      background-color: #369;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="delete">删除</button>
+  <button id="login">登录</button>
+
+  <!-- <div class="modal">
+    <div class="header">温馨提示 <i>x</i></div>
+    <div class="body">您没有删除权限操作</div>
+  </div> -->
+
+
+  <script>
+    // ==========================================
+    // 综合案例：面向对象方式封装——模态框 (Modal Box) 组件
+    // 本案例通过面向对象 (OOP) 的方式实现了页面通用的消息弹窗组件，包含了以下核心机制：
+    // 1. 构造函数 (Modal)：
+    //    - 作用：用来接收不同的个性化配置（标题 title、信息 message）。
+    //    - 机制：在实例化时，通过 `document.createElement` 动态在内存中创建出组件所需的 HTML 节点，并存到 `this.modalBox` 实例属性上。
+    // 2. 原型方法封装 (open / close)：
+    //    - 将通用的打开、关闭行为，挂载到 `Modal.prototype` 上，节约内存。
+    //    - `open`：检测页面中是否已存在模态框，防止重复创建（单例防刷）。若没有，使用 `document.body.appendChild()` 将 DOM 节点插入网页中展示。
+    //    - `close`：使用 `document.body.removeChild()` 移除节点，释放内存。
+    // 3. 事件绑定与 `this` 指向机制：
+    //    - ⚠️极其关键：关闭按钮的事件监听回调，必须使用【箭头函数】 `() => { this.close() }`！
+    //    - 原理：箭头函数没有自己的 `this`，它会沿用外层作用域（即 open 原型方法）中的 `this`（指向模态框实例 `m`）。
+    //    - 避坑：如果写成普通匿名函数 `function() { this.close() }`，执行时回调中的 `this` 就会指向被点击的 `<i>` 标签，而 `<i>` 标签上根本没有 `close` 这个方法，会导致代码报错崩溃！
+    // ==========================================
+
+    // 1. 模态框的构造函数
+    function Modal(title = '', message = '') {
+      // 实例属性：保存每个弹窗独特的文本信息
+      this.title = title
+      this.message = message
+      
+      // 内存创建：动态在内存中创建 div 盒子
+      // ⚠️必须用 `this.modalBox` 保存到实例身上，方便其他原型方法跨方法访问此节点
+      this.modalBox = document.createElement('div')
+      
+      // 添加类名以套用 CSS 样式
+      this.modalBox.className = 'modal'
+      
+      // 填充内部的 HTML 骨架，并动态嵌入当前实例的 title 和 message
+      this.modalBox.innerHTML = `
+        <div class="header">${this.title} <i>x</i></div>
+        <div class="body">${this.message}</div>
+      `
+    }
+    
+    // 2. 打开模态框的方法，挂载到原型对象上
+    Modal.prototype.open = function () {
+      // 单例校验：只有在当前页面找不到已有的 class 为 modal 的节点时，才去渲染，防止连续点击按钮弹出一堆弹窗
+      if (!document.querySelector('.modal')) {
+        // 将内存中备好的节点追加渲染到 body 尾部
+        document.body.appendChild(this.modalBox)
+        
+        // 绑定关闭按钮（i 标签）的点击事件
+        // 使用箭头函数，确保函数内的 this 指向当前 Modal 的实例对象（如 m），以便能顺利调用 `this.close()`
+        this.modalBox.querySelector('i').addEventListener('click', () => {
+          this.close()
+        })
+      }
+    }
+    
+    // 3. 关闭模态框的方法，挂载到原型对象上
+    Modal.prototype.close = function () {
+      // 从页面的 body 中将当前的模态框节点卸载移除
+      document.body.removeChild(this.modalBox)
+    }
+
+    // 4. “删除”按钮的点击交互
+    document.querySelector('#delete').addEventListener('click', () => {
+      // 创建一个 Modal 实例
+      const m = new Modal('温馨提示', '您没有权限删除此数据')
+      // 调用实例身上的 open 方法显示弹窗
+      m.open()
+    })
+
+    // 5. “登录”按钮的点击交互
+    document.querySelector('#login').addEventListener('click', () => {
+      // 创建另一个 Modal 实例
+      const m = new Modal('友情提示', '您还没有注册账号，请先注册')
+      m.open()
+    })
+
+  </script>
+</body>
+
+</html>

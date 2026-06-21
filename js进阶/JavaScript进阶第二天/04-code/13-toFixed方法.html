@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+      // 知识点：Number的toFixed() 方法保留小数位数
+    // 1. 作用：将数字进行格式化，保留指定位数的小数。
+    // 2. 语法：`num.toFixed(digits)`
+    //    - digits (可选)：要保留的小数位数（范围在 0 到 20 之间，默认为 0）。
+    // 3. ⚠️极度重要的细节（新手必坑点）：
+    //    - **返回值是【字符串】**，而不是数字！
+    //    - 比如 `10.toFixed(2)` 返回的是 `"10.00"`（带双引号的字符串）。
+    //    - 如果之后要拿这个结果进行数学加减运算，必须使用 `parseFloat()` 或 `Number()` 将其转换回数字，否则会发生字符串拼接，导致计算错误！
+    // 4. 四舍五入机制：
+    //    - 它是基于“四舍五入”进行舍入的，但在特定精度下受 JavaScript 浮点数计算精度的影响（如 IEEE 754 标准），可能会产生一些细微的偏差，但对于日常商业计算（如展示价格）足够使用。
+    // ==========================================
+
+    const num = 10.923
+    
+    // 【示例一：不传参数（默认保留 0 位小数，即四舍五入取整）】
+    console.log(num.toFixed()) // 打印："11" （注意：是字符串 "11"）
+    
+    // 【示例二：保留 1 位小数】
+    console.log(num.toFixed(1)) // 打印："10.9" （截取并四舍五入）
+
+    const num1 = 10
+    // 【示例三：对整数使用，补全小数位】
+    console.log(num1.toFixed(2)) // 打印："10.00" （非常适合用于展示商品价格，如 ¥10.00）
+  </script>
+</body>
+
+</html>

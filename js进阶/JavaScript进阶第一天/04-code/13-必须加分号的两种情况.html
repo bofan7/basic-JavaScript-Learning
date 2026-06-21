@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    // ==========================================
+    // 知识点：必须加分号的两种情况
+    // 1. 背景：JavaScript 拥有自动分号插入机制 (ASI - Automatic Semicolon Insertion)，因此大多数时候末尾不写分号也能运行。
+    // 2. 致命冲突点（ASI 会失效，导致报错）：
+    //    - 情况一：当下一行开头是 `(` (括号) 时（常见于立即执行函数 IIFE）。
+    //      * 如果上一行末尾没加分号，JS 引擎会误以为上一行的对象/变量是个函数，并试图执行它：`上一行内容(下一行内容)`。
+    //    - 情况二：当下一行开头是 `[` (中括号) 时（常见于解构赋值或数组操作）。
+    //      * 如果上一行没加分号，JS 引擎会误以为上一行的内容是数组或对象，而把中括号当成“属性访问器”（取索引），如：`上一行内容[下一行内容]`。
+    // 3. 最佳实践：
+    //    - 习惯不写分号的开发者，在写“立即执行函数”或“解构赋值”时，务必在开头加一个防御性分号：`;(function(){})()` 或 `;[a, b] = [b, a]`。
+    // ==========================================
+
+    // 【情况一：立即执行函数 (IIFE) 前面必须加分号】
+    // (function () { })();
+    // (function () { })(); // 两个 IIFE 之间必须加分号，否则会被解析为 `(function(){})() (function(){})` (试图把前一个返回值当函数调用，报 TypeError)
+
+
+    // 【情况二：下一行以 [ 开头，前一行必须加分号】
+    const str = 'pink'; // 这里的“分号”是必须的！
+    // 如果不加分号，JS 会读成：const str = 'pink'[1, 2, 3].map(...) 
+    // 这样 'pink'[3] 会返回 'k'，然后再对字符 'k' 调用 .map()，导致报错：TypeError: ...map is not a function
+    [1, 2, 3].map(function (item) {
+      console.log(item)
+    })
+
+    // 实际案例：解构赋值前的防御性分号
+    let a = 1
+    let b = 2
+    // 在 [ 前面加一个分号，防止与上方的 `let b = 2` 粘连在一起被解析为 `let b = 2[b, a]`
+    ;[b, a] = [a, b]
+
+    console.log(a, b) // 2 1
+  </script>
+</body>
+
+</html>

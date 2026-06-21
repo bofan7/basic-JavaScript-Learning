@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <title>彻底搞懂 JavaScript 的 this 环境对象</title>
+</head>
+
+<body>
+
+  <button id="my-button">点击我变红</button>
+
+  <script>
+    // ==========================================
+    // 场景 1：普通函数中的 this（大管家场景）
+    // ==========================================
+    function showGlobalContext() {
+      // 在全局作用域下，直接调用普通函数，this 默认指向 window 对象（浏览器大管家）
+      console.log("【场景 1】普通函数内部的 this 是：", this); 
+    }
+
+    // 以下两种调用的效果完全一样，因为全局函数默认挂载在 window 上
+    showGlobalContext();        // 输出：Window ...
+    window.showGlobalContext(); // 谁调用指向谁，window调用的，所以指向 window
+
+
+    // ==========================================
+    // 场景 2：DOM 事件绑定中的 this（当事人场景）
+    // ==========================================
+    // 1. 获取页面中的按钮元素
+    const btn = document.querySelector('#my-button');
+
+    // 2. 为按钮绑定点击事件
+    btn.addEventListener('click', function () {
+      // 核心规律：当按钮被点击时，是“按钮”触发了此函数
+      // 此时函数内部的 this 就会被自动绑定为“触发事件的那个 DOM 元素本身”（即这个按钮）
+      console.log("【场景 2】点击事件内部的 this 是：", this); 
+
+      // 妙用：使用 this 直接操作当前按钮的样式
+      this.style.color = 'red'; 
+      this.style.fontWeight = 'bold';
+    });
+  </script>
+
+</body>
+</html>

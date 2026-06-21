@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    .box {
+      width: 500px;
+      height: 500px;
+      background-color: #ccc;
+      color: #fff;
+      text-align: center;
+      font-size: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script src="./lodash.min.js"></script>
+  <script>
+    // ==========================================
+    // 知识点：Lodash 的防抖与节流
+    // 1. 防抖 (Debounce) 与 节流 (Throttle) 的本质区别：
+    //    - 防抖：频繁触发时，只在“最后一次停止后”等待特定延迟才执行一次。
+    //      * 类似：坐公交车，要等最后一个乘客上车并关门后才开走（重置等待时间）。
+    //    - 节流：频繁触发时，在特定时间段内“只执行一次”，并以固定的频率执行。
+    //      * 类似：技能冷却 CD。按得再快，也必须等冷却时间过去才能放下一个技能。
+    // 2. 工具库调用：
+    //    - 防抖：`_.debounce(fn, delay)`
+    //    - 节流：`_.throttle(fn, delay)`
+    // ==========================================
+
+    const box = document.querySelector('.box')
+    let i = 1  // 让这个变量++
+    
+    // 鼠标移动业务函数
+    function mouseMove() {
+      box.innerHTML = ++i
+    }
+
+    // 默认高频调用（非常卡顿）
+    // box.addEventListener('mousemove', mouseMove)
+    
+    // 【一、 Lodash 节流写法】
+    // 效果：鼠标疯狂移动，但盒子数字每 500ms 才会加 1，也就是以固定半秒的频率刷新。
+    // box.addEventListener('mousemove', _.throttle(mouseMove, 500))
+    
+    // 【二、 Lodash 防抖写法】
+    // 效果：鼠标疯狂移动时，盒子里的数字不动。只有当鼠标停下来，等待满 500ms 后，数字才会增加 1。
+    box.addEventListener('mousemove', _.debounce(mouseMove, 500))
+
+  </script>
+</body>
+
+</html>

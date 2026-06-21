@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：箭头函数的 this 指向
+    // 1. 普通函数的 this：
+    //    - 规则：“谁调用函数，this 就指向谁”。
+    //    - 全局调用：指向 window。
+    //    - 对象方法调用（如 `obj.sayHi()`）：指向该对象。
+    // 2. 箭头函数的 this：
+    //    - 规则：箭头函数**没有**自己的 `this`，它只会“沿用上层作用域的 this”。
+    //    - 作用域判定：JS 中只有“全局作用域”和“函数作用域”能产生独立的作用域，普通的对象大括号 `{}` 是“对象字面量”，**不产生作用域**。
+    //    - 避坑点：不要在“对象的方法”中直接声明箭头函数，除非你故意想要 `this` 指向全局的 `window`。
+    // ==========================================
+
+    // 【一、 普通函数的 this 行为】
+    // console.log(this)  // 全局中的 this 默认指向 window
+    
+    // function fn() {
+    //   console.log(this)  // window。因为 fn() 相当于 window.fn()，由 window 调用
+    // }
+    // window.fn()
+    
+    // const obj = {
+    //   name: 'andy',
+    //   sayHi: function () {
+    //     console.log(this)  // obj。因为是通过 obj.sayHi() 调用的
+    //   }
+    // }
+    // obj.sayHi()
+
+
+    // 【二、 箭头函数的 this 行为】
+    const fn = () => {
+      console.log(this)  // window。fn 上层是全局作用域，所以继承 window
+    }
+    fn()
+
+    // 避坑实例：对象方法使用箭头函数
+    // const obj2 = {
+    //   uname: 'pink老师',
+    //   sayHi: () => {
+    //     // 这里的 sayHi 是个箭头函数。
+    //     // 它的上层是全局作用域（注意：obj2 是个对象字面量，不形成独立作用域）
+    //     // 因此这里的 this 指向 window
+    //     console.log(this)  
+    //   }
+    // }
+    // obj2.sayHi() // 打印：window
+
+
+    // 【三、 箭头函数 this 的实用场景：嵌套函数继承 this】
+    const obj = {
+      uname: 'pink老师',
+      sayHi: function () {
+        // sayHi 是普通函数，this 指向调用它的对象 obj
+        console.log(this)  // 打印：obj
+        
+        let i = 10
+        
+        // count 是嵌套在 sayHi 内部的箭头函数
+        // 它的上层作用域是 sayHi 函数作用域
+        // 因此 count 内部的 this 继承自 sayHi 的 this，也就是 obj
+        const count = () => {
+          console.log(this)  // 打印：obj
+        }
+        
+        count() // 调用 count
+      }
+    }
+    
+    obj.sayHi()
+  </script>
+</body>
+
+</html>

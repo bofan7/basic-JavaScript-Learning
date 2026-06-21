@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：throw 抛出异常 (Throwing Exceptions)
+    // 1. 作用：当程序检测到非法输入或错误状态时，可以使用 `throw` 主动抛出异常，提醒调用者或中断程序。
+    // 2. 行为特征：
+    //    - 一旦抛出异常，**后续的代码将立即中断执行**（除非有 try-catch 捕获）。
+    // 3. 语法形式：
+    //    - 形式一：`throw '错误消息'` (只抛出简易字符串，不方便追溯错误位置)。
+    //    - 形式二：`throw new Error('错误消息')` (推荐用法！Error 对象会生成详细的调用栈轨迹 Stack Trace，指明具体出错文件和行号，方便调试)。
+    // ==========================================
+
+    function fn(x, y) {
+      // 如果 x 或 y 没传值（值为 undefined/falsey）
+      if (!x || !y) {
+        // throw '没有参数传递进来'
+        
+        // 推荐：抛出 Error 实例对象
+        throw new Error('没有参数传递过来，请传入 x 和 y 两个数值！')
+      }
+
+      return x + y
+    }
+    
+    // 调用 fn() 不传参，触发 throw，程序终端，控制台将报红字 Error
+    console.log(fn())
+    
+    // ⚠️由于上方 fn() 执行时抛出异常且未被拦截，下面这行 log 将永远不会被执行！
+    console.log('这行字不会打印出来') 
+  </script>
+</body>
+
+</html>

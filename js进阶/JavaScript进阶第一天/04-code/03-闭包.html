@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：闭包 (Closure)
+    // 1. 概念：闭包是指一个“内层函数”引用了其“外层函数”中声明的变量，就形成了闭包。
+    //    简而言之：闭包 = 内层函数 + 外层函数的变量。
+    // 2. 核心作用：
+    //    - 允许我们在函数外部间接地访问和修改函数内部的局部变量。
+    //    - 实现了数据的“私有化”，防止全局变量污染。
+    // 3. 弊端与注意事项：
+    //    - 内存泄漏：因为外部持有了内层函数的引用，使得外层函数的局部变量一直处于“可达”状态，无法被垃圾回收。
+    //    - 解决方法：在使用完毕后，将变量手动设为 null（例如 `fun = null`），释放内存。
+    // ==========================================
+
+    // 【一、 闭包的简单写法】
+    function outer() {
+      let a = 10
+      function fn() {
+        console.log(a) // 内层函数 fn 访问了外层函数 outer 的变量 a -> 形成闭包
+      }
+      fn()
+    }
+    outer()
+
+
+    // 【二、 常见的闭包形式：外层函数返回内层函数】
+    // 这种形式的目的是让外部代码可以持久、重复地访问和修改这个私有变量。
+    function outer() {
+      let a = 100
+      function fn() {
+        console.log(a)
+      }
+      return fn // 将闭包函数作为返回值暴露到外层
+    }
+
+
+    // outer() 调用后返回的就是 fn，即 function fn() {}
+    // const fun = function fn() { }
+
+    // 【常见写法2：直接返回匿名函数】
+    function outer() {
+      let a = 100
+      return function () { // 直接返回一个匿名函数，同样引用了变量 a
+        console.log(a)
+      }
+    }
+    // const fun = outer() // 此时 fun 拿到了 outer 返回的内层匿名函数
+    // fun()              // 调用函数，打印 100
+
+
+    // 【三、 闭包的应用：实现计数器】
+    
+    // 方案 1：普通形式（使用全局变量统计函数调用次数）
+    // let i = 0
+    // function fn() {
+    //   i++
+    //   console.log(`函数被调用了${i}次`)
+    // }
+    // 缺陷：全局变量 i 容易被其他地方的代码意外修改，不安全。
+    
+    // 方案 2：闭包形式（私有计数变量）
+    function count() {
+      let i = 0 // i 是局部变量，外部无法直接读取或改写
+      function fn() {
+        i++ // 每次调用，利用闭包访问并递增这个私有的 i
+        console.log(`函数被调用了${i}次`)
+      }
+      return fn // 返回这个闭包函数
+    }
+    
+    // 此时 fun 得到了一个闭包环境
+    const fun = count()
+    fun() // 打印：函数被调用了1次
+    fun() // 打印：函数被调用了2次
+    
+    // 注意：如果不再使用 fun，应当将其置空以防内存泄漏
+    // fun = null
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 200px;
+    }
+
+    .box::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: pink;
+    }
+
+    .mask::before {
+      width: 120%;
+      height: 120%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script>
+    // ==========================================
+    // 知识点复习：DOM 属性控制与类名切换
+    // 1. `classList.toggle('类名')`：
+    //    - 作用：在元素的类名列表中切换指定类名。
+    //    - 机制：如果元素当前【没有】该类名，则自动【添加】该类名；如果元素当前【已有】该类名，则自动【删除】该类名。
+    //    - 优点：省去了我们手动判断 `contains` 再 add / remove 的麻烦。
+    // ==========================================
+
+    const box = document.querySelector('.box')
+    
+    // 给盒子绑定点击事件，点击时在 box 和 mask 状态之间来回切换
+    box.addEventListener('click', function () {
+      box.classList.toggle('mask')
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+// ==========================================
+// 知识点：多级（嵌套）对象解构
+// ==========================================
+
+const pig = {
+  name: '佩奇',
+  family: {
+    mother: '猪妈妈',
+    father: '猪爸爸',
+    sister: '乔治'
+  },
+  age: 6
+}
+
+/* 【核心规则：看冒号 `:` 认清谁才是变量】
+  
+  1. 冒号左边：是“对象属性名”（导航路径），用来告诉 JS 往哪走。它【不会】被创建为变量！
+  2. 冒号右边：是“解构出来的目标”，只有这里面的名字，【才会】被真正创建为变量！
+
+  👇 对比结构图：
+  const { name,  family: { mother, father, sister } } = pig
+           │        │         │       │       │
+      [ 变量 ]   [路径]   [ 变量 ] [ 变量 ] [ 变量 ]
+*/
+
+// 一步到位：直接提取内层属性
+const { name, family: { mother, father, sister } } = pig;
+
+// 【验证结果】
+console.log(name);   // '佩奇'   (成功，因为直接写在第一层，没加冒号)
+console.log(mother); // '猪妈妈' (成功，因为在冒号右边的花括号里)
+console.log(father); // '猪爸爸' (成功，同上)
+console.log(sister); // '乔治'   (成功，同上)
+
+// ⚠️ 特别注意：
+//console.log(family); // ❌ 报错：ReferenceError: family is not defined
+// 原因：family 后面跟了冒号 `family: { ... }`，它只充当了“引路人”，JS 并没有为它开辟变量空间。
+
+
+    // 【二、 进阶：多级对象解构与数组解构的组合】
+    // person 是个数组，第 0 项是个嵌套对象
+    const person = [
+      {
+        name: '佩奇',
+        family: {
+          mother: '猪妈妈',
+          father: '猪爸爸',
+          sister: '乔治'
+        },
+        age: 6
+      }
+    ]
+    
+    // 解构过程：
+    // 1. 最外层的 `[{ ... }]` 表示匹配数组的第一项（对象）。
+    // 2. 在大括号内，解构 `name`。
+    // 3. 使用 `family: { mother, father, sister }` 递归解构出内层对象中的成员。
+    //const [{ name, family: { mother, father, sister } }] = person
+    
+    console.log(name)   // '佩奇'
+    console.log(mother) // '猪妈妈'
+    console.log(father) // '猪爸爸'
+    console.log(sister) // '乔治'
+  </script>
+</body>
+
+</html>

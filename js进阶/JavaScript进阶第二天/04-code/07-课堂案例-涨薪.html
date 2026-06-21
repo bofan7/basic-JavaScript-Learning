@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 课堂案例：计算所有员工的涨薪预算总和
+    // 核心需求：每个员工涨薪额度为薪水的 30%（即 salary * 0.3），求所有员工的涨薪总和。
+    // ⚠️为什么必须要设置起始值 0？
+    //    - 如果不设起始值，`prev` 默认在第一次迭代时会直接拿到第一个数组元素对象（即 `{ name: '张三', salary: 10000 }`）。
+    //    - 接着执行：`prev + item.salary * 0.3` 就会变成 `[object Object] + 3000`，导致最终结果为字符串拼接错误或 NaN。
+    //    - 设置起始值 0 后，第一步迭代为 `0 + 10000 * 0.3 = 3000`，以此类推，prev 始终保持数值类型，从而得出正确累加结果。
+    // ==========================================
+
+    const arr = [{
+      name: '张三',
+      salary: 10000
+    }, {
+      name: '李四',
+      salary: 10000
+    }, {
+      name: '王五',
+      salary: 20000
+    },
+    ]
+
+    // 【方式一：传统匿名函数写法】
+    // const money = arr.reduce(function (prev, item) {
+    //   // prev 在第一次循环时为 0（起始值），item 是遍历到的员工对象
+    //   return prev + item.salary * 0.3
+    // }, 0)
+
+    // 【方式二：箭头函数极简写法】
+    // 累计流程：
+    // 1. 第一次迭代：prev = 0, item = 张三 -> 返回 0 + 10000*0.3 = 3000
+    // 2. 第二次迭代：prev = 3000, item = 李四 -> 返回 3000 + 10000*0.3 = 6000
+    // 3. 第三次迭代：prev = 6000, item = 王五 -> 返回 6000 + 20000*0.3 = 12000
+    const money = arr.reduce((prev, item) => prev + item.salary * 0.3, 0)
+    
+    console.log(money) // 打印 12000
+  </script>
+</body>
+
+</html>

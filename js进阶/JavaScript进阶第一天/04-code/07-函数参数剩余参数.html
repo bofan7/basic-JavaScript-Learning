@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：剩余参数 (Rest Parameters) - ES6 新增
+    // 1. 语法：`...变量名`，例如 `...arr`。
+    // 2. 核心特点：
+    //    - 它是一个**真正的数组**，可以随时调用真正的数组方法（如 push, map, filter, forEach 等）。
+    //    - 它用于获取函数的多余实参，并将它们放入一个数组中。
+    //    - 占位匹配：它可以和普通形参搭配使用。例如 `getSum(a, b, ...arr)`，前两个实参给 a 和 b，剩下所有的实参都会被 `...arr` 收集到数组 `arr` 中。
+    // 3. 约束限制：
+    //    - 剩余参数必须写在形参列表的**最后面**，否则会报错（SyntaxError）。
+    // 4. 与 arguments 的区别：
+    //    - arguments 是伪数组，剩余参数是真数组。
+    //    - 剩余参数可在箭头函数中使用，而 arguments 不能。
+    // ==========================================
+
+    function getSum(a, b, ...arr) {
+      // a 对应第 1 个实参
+      // b 对应第 2 个实参
+      // ...arr 会把从第 3 个开始的所有实参打包成一个真正的数组 arr
+      
+      console.log(arr)  // 使用的时候不需要写 ...  arr 是一个真数组。
+    }
+
+    getSum(2, 3) 
+    // 实参 2 和 3 分别被 a 和 b 接收。没有剩余参数，此时 arr 打印为一个空数组：[]
+    
+    getSum(1, 2, 3, 4, 5) 
+    // 1 被 a 接收，2 被 b 接收，剩下的 3, 4, 5 组成一个数组 [3, 4, 5] 打印出来
+  </script>
+</body>
+
+</html>

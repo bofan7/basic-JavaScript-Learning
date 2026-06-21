@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：Array 常用高阶方法 (find / every)
+    // ==========================================
+
+    // 【一、 Array的.find() 查找单个匹配项】
+    // 1. 作用：遍历数组，寻找满足条件的**第一个**元素。
+    // 2. 返回值：
+    //    - 找到则返回该**元素本身**（注意：如果是对象，则返回该对象的引用）。
+    //    - 没找到则返回 `undefined`。
+    // 3. 特征：一旦在回调中返回了 `true`，就停止后面的遍历（短路行为）。
+    
+    // 练习：在对象数组中查找名字为 '小米' 的对象
+    const arr = [
+      {
+        name: '小米',
+        price: 1999
+      },
+      {
+        name: '华为',
+        price: 3999
+      },
+    ]
+
+    // 传统写法：
+    // const mi = arr.find(function (item) {
+    //   // item 是数组中的每个商品对象
+    //   return item.name === '小米' // 匹配成功则返回这个对象
+    // })
+
+    // 箭头函数极简写法：
+    const mi = arr.find(item => item.name === '小米')
+    console.log(mi) // 打印对象：{ name: '小米', price: 1999 }
+
+
+    // 【二、 Array的.every() 判断是否全部符合条件】
+    // 1. 作用：检测数组中的**所有**元素是否都符合指定条件。
+    // 2. 返回值：
+    //    - 如果**每一个**元素的回调都返回 `true`，最终结果才返回 `true`。
+    //    - 只要有**任意一个**元素返回 `false`，立即终止遍历并返回 `false`（短路行为）。
+    // 3. 适用场景：例如全选框状态判断（当且仅当所有小选框都被选中时，全选框才选中）。
+
+    const arr1 = [10, 20, 30]
+    
+    // 判断数组中的元素是不是全部都大于等于 20
+    const flag = arr1.every(item => item >= 20)
+    console.log(flag) // 打印 false。因为 10 < 20 导致 every 在第 1 个元素就返回 false 终止遍历
+  </script>
+</body>
+
+</html>

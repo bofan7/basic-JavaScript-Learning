@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：拓展内置对象的方法 (Extending Built-in Objects)
+    // 1. 原理：JavaScript 的内置构造函数（如 Array、String、Number 等）同样拥有 `prototype` 原型对象。
+    // 2. 做法：我们可以向这些内置对象的原型上追加自定义的方法，这样一来，程序中所有该类型的实例对象都可以立即调用这些新方法。
+    //    - 例如：往 `Array.prototype` 上挂载一个 `sum` 方法，那么所有普通数组 `[1, 2, 3]` 都能直接调用 `sum()`。
+    // 3. 原型方法内部的 `this` 指向：
+    //    - 指向调用该方法的【数组实例】。也就是说，在 `Array.prototype.sum` 里，`this` 就是那个调用它的数组。
+    // 4. ⚠️开发规范警告：
+    //    - 在实际项目开发或开发第三方库时，**不推荐**直接修改或扩展内置的原型对象（这被称为“猴子补丁 Monkey Patching”），因为容易引发命名冲突或不可预知的 bug。在此处仅作为学习原型扩展的经典教学演示。
+    // ==========================================
+
+    const arr = [1, 2, 3]
+
+    // 【一、 扩展求最大值方法 max】
+    Array.prototype.max = function () {
+      // 这里的 this 指向调用 max 方法的数组对象（如 arr 或者 [2, 5, 9]）
+      // ...this 使用展开运算符将数组展开成数值序列，传递给 Math.max()
+      return Math.max(...this)
+    }
+
+    // 【二、 扩展求最小值方法 min】
+    Array.prototype.min = function () {
+      // 这里的 this 同样指向当前调用的数组实例
+      return Math.min(...this)
+    }
+
+    // 调用扩展方法：
+    console.log(arr.max())       // 打印 3 (来自 arr = [1, 2, 3])
+    console.log([2, 5, 9].max()) // 打印 9 (直接对数组字面量调用，this 指向 [2, 5, 9])
+    console.log(arr.min())       // 打印 1
+
+
+    // 【三、 扩展累加求和方法 sum】
+    Array.prototype.sum = function () {
+      // 这里的 this 指向调用 sum 的数组实例
+      // 配合 reduce() 累加数组中的每一个值
+      return this.reduce((prev, item) => prev + item, 0)
+    }
+
+    // 调用累加求和方法：
+    console.log([1, 2, 3].sum())     // 打印 6
+    console.log([11, 21, 31].sum())   // 打印 63
+  </script>
+</body>
+
+</html>

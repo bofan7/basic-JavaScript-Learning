@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：变量提升 (Variable Hoisting)
+    // 1. 概念：JavaScript 代码在执行之前，JS 引擎会先进行预解析（编译），将当前作用域中所有通过 `var` 声明的变量提升到“当前作用域的最前面”。
+    // 2. 核心特征：
+    //    - “只提升声明，不提升赋值”：变量的声明会被移到最前，但赋值操作依然保留在原位置。所以在赋值前访问该变量，得到的值是 `undefined`。
+    //    - 块级/局部作用域同样存在提升：在函数内部声明的 `var` 变量，会被提升到该函数的顶部，而不是全局顶部。
+    // 3. 避坑指南：
+    //    - `let` 和 `const` 不存在变量提升现象（它们在声明前存在“暂时性死区 Temporal Dead Zone - TDZ”），在声明前访问它们会直接报错。
+    //    - 在现代开发中，推荐完全使用 `let` 和 `const`，避免使用 `var` 引起逻辑混乱。
+    // ==========================================
+
+    // 【示例一：全局作用域下的变量提升】
+    // 实际执行时的解析顺序等价于：
+    var num;
+    console.log(num + '件'); // num 此时是 undefined，拼接后得到 "undefined件"
+    num = 10;
+    console.log(num); // 10
+ 
+
+
+    // 【示例二：函数作用域内的变量提升】
+    function fn() {
+      // 预解析会将内部的 var num 提升到 fn 函数的第一行：
+      // var num;
+      // console.log(num); // 局部变量 num 遮蔽了外部同名变量（若有），此时为 undefined
+      // num = 10;
+      console.log(nu)
+      var nu = 10
+    }
+    
+    fn() // 调用 fn，输出 undefined
+  </script>
+</body>
+
+</html>

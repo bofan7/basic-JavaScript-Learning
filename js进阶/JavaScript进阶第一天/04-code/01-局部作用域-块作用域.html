@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+    <script>
+    // ==========================================
+    // 知识点：局部作用域
+    // 1. 局部作用域分为：函数作用域 和 块级作用域。
+    // 2. 块级作用域：在 JavaScript 中，使用双大括号 `{}` 包裹的代码块（如 if、for、while 等）所形成的作用域。
+    // 3. 变量声明的影响：
+    //    - let 和 const 声明的变量会绑定在块级作用域中，在大括号外部无法被访问。
+    //    - var 声明的变量不受块级作用域限制（它只受函数作用域限制），所以在块外部依然可以访问。
+    // ==========================================
+
+    // 【对比一：var 声明的循环变量】
+    // for (var i = 1; i <= 3; i++) {
+    //   // 块作用域
+    //   console.log(i) // 依次打印 1, 2, 3
+    // }
+    // // 警告：因为 var 没有块级作用域，这里的 i 溢出到了全局作用域，在循环结束后依然可以访问
+    // console.log(i) // 打印 4
+
+
+    // 【对比二：let 声明的循环变量】
+    // for (let i = 1; i <= 3; i++) {
+    //   // 块作用域
+    //   // let 声明的变量只在当前 for 循环的 `{}` 块中有效
+    //   console.log(i) // 依次打印 1, 2, 3
+    // }
+    // // 报错：Uncaught ReferenceError: i is not defined 
+    // // 因为 let 限制了 i 只能在循环体内部被访问
+    // console.log(i) 
+
+
+    // 【对比三：if 语句中的块级作用域】
+    if (true) {
+      let i = 10 // 使用 let 声明，属于 if 语句的块级作用域
+    }
+    // 报错：Uncaught ReferenceError: i is not defined
+    // 试图在块外部访问块内部由 let 声明的变量 i，会导致报错。
+    console.log(i) 
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // ==========================================
+    // 知识点：显式（强制）转换为字符串
+    // 1. `String(数据)`：
+    //    - 作用：全局内置函数，可以将任何类型的数据强制转换为字符串。
+    //    - 优点：非常安全，即使传入 `null` 或 `undefined`，也能正常工作，返回 `"null"` 或 `"undefined"`。
+    // 2. `数据.toString(进制)`：
+    //    - 作用：属于原型方法（除了 null 和 undefined 外，所有数据类型都继承了该方法）。
+    //    - ⚠️缺点：**不能**对 `null` 和 `undefined` 调用该方法，否则会直接抛出运行错误（Cannot read properties of null...）。
+    //    - 额外能力：对于数值，可以传入可选参数（如 2、8、16 进制）进行进制转换输出，如 `(10).toString(2)` 转换为二进制字符串 `"1010"`。
+    // ==========================================
+
+    const num = 10
+    
+    // 方式一：使用全局 String() 转换
+    console.log(String(num)) // 打印："10" (类型为 string)
+    
+    // 方式二：使用 toString() 方法转换
+    console.log(num.toString()) // 打印："10" (类型为 string)
+  </script>
+</body>
+
+</html>
